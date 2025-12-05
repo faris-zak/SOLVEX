@@ -1,0 +1,468 @@
+*{
+    text-decoration: none;
+    font-family: 'tajawal', sans-serif;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+body {
+    color: black;
+    min-height: 100vh;
+    background-size: 400% 400%;
+    background-color: #fff2e9;
+    text-align: center;
+
+}
+
+/* Glass Navbar */
+.navbar {
+    cursor: default;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 800px;
+    height: 70px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 20px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.37),
+    inset 0 0 30px rgba(80, 255, 153, 0.15),
+    0 0 30px rgba(43, 226, 76, 0.2);
+    border-top: none;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    font-size: 20px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.logo-icon img {
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+/* Right icons */
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+a{
+    text-decoration: none;
+
+}
+
+.nav-icon {
+    height: 40px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    padding: 14px 12px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: black;
+}
+
+.nav-icon:hover {
+    background: #c6ffd430;
+    box-shadow: #c6ffd430;
+    transform: scale(1.05);
+}
+
+/* Optional: Add a very subtle top highlight */
+.navbar::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+}
+
+main{
+    width: 90%;
+    max-width: 900px;
+    margin: auto;
+    margin-top: 140px;
+    margin-bottom: 50px;
+}
+
+main section{
+    text-align: center;
+    margin: auto;
+    justify-content: center;
+    margin-bottom: 1px;
+}
+
+main section.first-head{
+    margin: 0;
+    margin-bottom: 70px;
+}
+
+main section.first-head img{
+    width: 100%;
+    user-select: none;
+}
+
+main section.first-head div.details{
+    margin-top: 15px;
+}
+
+main section.first-head div.details span.header{
+    margin: 0;
+    font-size: 40px;
+}
+
+main section.first-head div.details span.header span.mainWord{
+    color: #797D62;
+    font-weight: 700;
+    user-select: none;
+}
+
+main section.first-head div.details span.header span.mainWord span.hashtag{
+    color: #FFCB70;
+    margin-left: 5px;
+}
+
+main section.first-head div.details span.header span.mainWord:hover span.hashtag{
+    margin-left: 0;
+    font-weight: 700;
+}
+
+main section.first-head div.details p.description{
+    margin-top: 10px;
+    margin-bottom: 0;
+    font-size: 20px;
+    color: grey;
+}
+
+main section.first-head div.details a input.discoverButton{
+    width: fit-content;
+    min-width: 100px;
+    font-size: 20px;
+    margin-top: 25px;
+    padding: 9px 16px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    color: #01188a;
+    box-shadow: 0px 8px 0px 0px #00000035;
+    user-select: none;
+}
+
+main section.first-head div.details a input.discoverButton:hover{
+    background-color: white;
+    box-shadow: 0px 8px 0px 0px #00000035;
+}
+
+main section.first-head div.details a input.discoverButton:active{
+    background-color: #01188a;
+    color: #F2F2F2;
+    transform: scale(0.95);
+    box-shadow: 0px 8px 20px 0px #01188a35;
+}
+
+main section.first-body{
+    padding: 17px;
+    margin: 0;
+    margin-bottom: 70px;
+    background: rgba(25, 45, 29, 0.25);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+main section.first-body div.details span.header{
+    margin: 0;
+    font-size: 32px;
+    color: #afce44;
+}
+
+main section.first-body div.details p.description{
+    margin-top: 10px;
+    margin-bottom: 0;
+    font-size: 18px;
+    color: #F2F2F2;
+}
+
+main section.second-body{
+    padding: 17px;
+    margin: 0;
+    margin-bottom: 70px;
+}
+
+main section.second-body div.details span.header{
+    margin: 0;
+    font-size: 40px;
+    color: #01188a;
+}
+
+main section.second-body div.details div.image-slider{
+    width: auto;
+    margin-top: 30px;
+    overflow: scroll;
+    overflow-y: hidden;
+    overflow-x: auto;
+    position: relative;
+}
+
+main section.second-body div.details div.image-slider div.image-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: auto;
+    
+}
+
+main section.second-body div.details div.image-slider div.image-container img{
+    width: auto;
+    height: 260px;
+    object-fit: cover;
+    margin: 0 20px;
+    padding: 0;
+    user-select: none;
+    transition: opacity 0.6s;
+}
+
+main section.second-body div.details div.image-slider div.image-container:hover > :not(:hover){
+    opacity: 0.4;
+}
+
+main section.third-body{
+    padding: 17px;
+    margin: 0;
+    margin-bottom: 70px;
+    border-radius: 0px 20px;
+    background: rgba(25, 45, 29, 0.25);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+main section.third-body div.details span.header{
+    margin: 0;
+    font-size: 32px;
+    color: #afce44;
+}
+
+main section.third-body div.details p.description{
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #F2F2F2;
+}
+  
+main section.third-body div.details div.userDetails form label input, textarea{
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #F2F2F2;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    direction: rtl;
+}
+
+main section.third-body div.details div.userDetails form button{
+    width: fit-content;
+    min-width: 100px;
+    font-size: 18px;
+    margin-top: 25px;
+    padding: 9px 16px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    color: #01188a;
+    user-select: none;
+}
+  
+main section.third-body div.details div.userDetails form button:hover{
+    background-color: #01188a;
+    color: #F2F2F2;
+}
+
+main section.third-body div.details div.userDetails form button:active{
+    transform: scale(0.95);
+}
+
+main section.fourth-body{
+    padding: 17px;
+    margin: 0;
+    margin-bottom: 70px;
+}
+
+main section.fourth-body div.details span.header{
+    margin: 0;
+    font-size: 40px;
+    color: #01188a;
+}
+
+main section.fourth-body div.details p.description{
+    margin-top: 10px;
+    font-size: 20px;
+    color: #afce44;
+}
+
+main section.fourth-body div.details div.contactContainer{
+    display: flex;
+}
+
+main section.fourth-body div.details div.contactContainer div.contactBox{
+    width: 50%;
+    height: auto;
+    margin-top: 20px;
+    margin-right: 20px;
+    padding: 30px 25px 15px;
+    border: 2px solid #5c5c5c;
+    border-radius: 6px;
+}
+
+main section.fourth-body div.details div.contactContainer div.contactBox:first-child{
+    margin-right: 0;
+}
+
+main section.fourth-body div.details div.contactContainer div.contactBox i{
+    display: block;
+    font-size: 45px;
+    color: #01188a;
+}
+
+main section.fourth-body div.details div.contactContainer div.contactBox span.contactType{
+    display: block;
+    font-size: 22px;
+    color: #000;
+}
+
+main section.fourth-body div.details div.contactContainer div.contactBox p.contactInfo{
+    display: block;
+    margin-bottom: 0;
+}
+
+@media screen and (max-width: 600px){
+    
+    main section.fourth-body div.details div.contactContainer{
+        display: inline-block;
+    }
+
+    main section.fourth-body div.details div.contactContainer div.contactBox{
+        width: 80%;
+        margin-right: 0px;
+    }
+}
+
+
+a.toTop{
+    cursor: pointer;
+    user-select: none;
+    text-align: center;
+    text-decoration: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    position: fixed;
+    color: #F2F2F2;
+    background: rgb(25, 45, 29);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding-top: 1%;
+    font-size: 2em;
+    right: 1rem;
+    bottom: 1rem;
+    width: 3rem;
+    height: 3rem;
+    transition: opacity 0.3s;
+    background: transparent;
+}
+
+a.toTop:hover{
+    color: #01188a;
+}
+
+footer{
+    width: 90%;
+    max-width: 800px;
+    height: 70px;
+    margin: auto;
+    display: flex;
+    font-size: 1em;
+    padding-bottom: 5px;
+    border-radius: 20px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: none;
+    box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.37),
+    inset 0 0 30px rgba(80, 255, 153, 0.15),
+    0 0 30px rgba(43, 226, 76, 0.2);
+    padding: 0 30px;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+footer span.line, span.line-last{
+    color: #afce44;
+}
+
+footer div.contact a{
+    text-decoration: none;
+}
+
+footer div.contact a:hover{
+    color: #c3c6ce;
+}
+
+footer div.contact a i{
+    color: #afce44;
+    font-size: 28px;
+    margin: 0px 10px;
+}
+
+footer div.contact a i:hover{
+    color: #01188a;
+}
+
+footer div.copyright p{
+    font-size: 16px;
+    position: relative;
+    font-weight: 400;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
