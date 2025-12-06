@@ -28,12 +28,22 @@
 <body>
     <nav class="navbar">
       <div class="nav-right">
-          <a href="#ourproject"><div class="nav-icon">مشروعنا</div></a>
-          <a href="#ourteam"><div class="nav-icon">فريقنا</div></a>
-          <a href="#inquire"><div class="nav-icon">الإستعلام</div></a>
+          <a href="#ourproject" title="Our Project"><div class="nav-icon">مشروعنا</div></a>
+          <a href="#ourteam" title="Our Team"><div class="nav-icon">فريقنا</div></a>
+          <a href="#inquire" title="Inquire"><div class="nav-icon">الإستعلام</div></a>
       </div>
+
+        <div class="dropdown" style="float: right;" dir="rtl">
+            <div class="slideMenu" title="Slide Menu"><i class="fa-solid fa-caret-left"></i></div>
+            
+            <div class="dropdownContent">
+                <a class="site" href="#ourproject" title="Our Project">حول مشروعنا</a>
+                <a class="site" href="#ourteam" title="Our Team">فريقنا</a>
+                <a class="site" href="#inquire" title="Inquire">الإستعلام</a>
+            </div>
+        </div>
       
-    <div class="logo">
+    <div class="logo" onclick="topFunction()" title="Go to top">
       SOLVEX
       <div class="logo-icon"><img src="assets/images/solvex-logo.png" alt="SOLVEX Logo"></div>
     </div>
@@ -53,7 +63,7 @@
     <section class="first-body" id="ourproject">
         <div class="details">
             <span class="header"></span>
-            <p class="description"></p>
+            <p class="description">فكرتنا تعطي للنبات بيئة جذور أكثر استقرارًا؛ لأن البلاطة توفر حرارة خفيفة وثابتة للتربة، وهذا شيء معروف إنه يحفّز نشاط الجذور ويرفع كفاءة امتصاص الماء والعناصر. الفكرة تحافظ على رطوبة متوازنة، وتساعد البكتيريا النافعة، وتقلّل صدمة البرودة ليلًا، يعني نمو أسرع وصحة أفضل - خصوصا للنباتات المنزلية والزراعة على الأسطح. فإحنا ما نولد طاقة بس... إحنا نرفع جودة الزراعة نفسها.</p>
         </div>
     </section>
 
@@ -132,14 +142,7 @@
 
     <section class="fourth-body" id="contactUs">
         <div class="details">
-            <span class="header">نحن هنا لأجلك</span>
-            <div class="contactContainer">
-                <div class="contactBox">
-                    <i class="fi fi-rs-map-marker"></i>
-                    <span class="contactType">العنوان</span>
-                    <p class="contactInfo">جامعة السلطان قابوس</p>
-                </div>
-            </div>
+            <img src="assets/images/squ-word.webp" alt="SQU Logo" class="locationImg">
         </div>
     </section>
 </main>
@@ -148,8 +151,8 @@
 
         <footer>
             <div class="contact">
-                <a href="mailto: solvexoman@outlook.com" title="البريد الإلكتروني - Email"><i class="fi fi-rr-envelope"></i></a>
-                <a href="https://www.instagram.com/solvexoman" title="الإنستقرام - Instagram"><i class="fi fi-brands-instagram"></i></a>
+                <a href="mailto: solvexoman@outlook.com" title="البريد الإلكتروني - Email"><i class="fa-regular fa-envelope"></i></a>
+                <a href="https://www.instagram.com/solvexoman" title="الإنستقرام - Instagram"><i class="fa-brands fa-instagram"></i></a>
             </div>
 
             <div class="copyright" title="All rights reserved &copy; SOLVEX 2025">

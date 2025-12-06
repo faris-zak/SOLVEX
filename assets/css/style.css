@@ -8,6 +8,36 @@
     transition: all 0.2s ease;
 }
 
+
+/* WebKit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #9B9B7A;
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #9B9B7A;
+    border-radius: 6px;
+    border: 2.5px solid #c3c6ce;
+    transition: all 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #797D62;
+    cursor: grab;
+}
+
+/* Firefox */
+body {
+    scrollbar-width: thin;
+    scrollbar-color: #9B9B7A #c3c6ce;
+}
+
 html{
     scroll-behavior: smooth;
 }
@@ -21,7 +51,7 @@ body {
 
 }
 
-/* Glass Navbar */
+/* Glass navbar */
 .navbar {
     cursor: default;
     position: fixed;
@@ -36,19 +66,17 @@ body {
     border-radius: 20px;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
-    
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.37),
-    inset 0 0 30px rgba(80, 255, 153, 0.15),
-    0 0 30px rgba(43, 226, 76, 0.2);
+    inset 0 0 30px #FFCB7030,
+    0 0 30px #FFCB7030;
     border-top: none;
     padding: 0 30px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     z-index: 1000;
-    overflow: hidden;
 }
 
 /* Logo */
@@ -98,8 +126,8 @@ a{
 }
 
 .nav-icon:hover {
-    background: #c6ffd430;
-    box-shadow: #c6ffd430;
+    background: #FFCB7015;
+    box-shadow: #FFCB7015;
     transform: scale(1.05);
 }
 
@@ -111,6 +139,25 @@ a{
     height: 1px;
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
 }
+
+nav.navbar div.dropdown{
+    display: none;
+    height: 32px;
+    width: 32px;
+    position: relative;
+    z-index: 1001;
+}
+
+nav.navbar div.dropdown div.dropdownContent{
+    display: none;
+}
+
+nav.navbar div.dropdown div.slideMenu{
+    position: absolute;
+    cursor: pointer;
+}
+
+
 
 main{
     width: 90%;
@@ -169,32 +216,6 @@ main section.first-head div.details p.description{
     color: grey;
 }
 
-main section.first-head div.details a input.discoverButton{
-    width: fit-content;
-    min-width: 100px;
-    font-size: 20px;
-    margin-top: 25px;
-    padding: 9px 16px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    color: #01188a;
-    box-shadow: 0px 8px 0px 0px #00000035;
-    user-select: none;
-}
-
-main section.first-head div.details a input.discoverButton:hover{
-    background-color: white;
-    box-shadow: 0px 8px 0px 0px #00000035;
-}
-
-main section.first-head div.details a input.discoverButton:active{
-    background-color: #01188a;
-    color: #F2F2F2;
-    transform: scale(0.95);
-    box-shadow: 0px 8px 20px 0px #01188a35;
-}
-
 main section.first-body{
     padding: 17px;
     margin: 0;
@@ -228,7 +249,7 @@ main section.second-body{
 main section.second-body div.details span.header{
     margin: 0;
     font-size: 40px;
-    color: #01188a;
+    color: #D08C60;
 }
 
 main section.second-body div.details div.image-slider{
@@ -245,7 +266,10 @@ main section.second-body div.details div.image-slider div.image-container{
     align-items: center;
     justify-content: space-between;
     width: auto;
-    
+    height: auto;
+    margin-bottom: 20px;
+    user-select: none;
+    gap: 20px;
 }
 
 main section.second-body div.details div.image-slider div.image-container img{
@@ -277,7 +301,7 @@ main section.third-body{
 main section.third-body div.details span.header{
     margin: 0;
     font-size: 32px;
-    color: #afce44;
+    color: #797D62;
 }
 
 main section.third-body div.details p.description{
@@ -303,16 +327,17 @@ main section.third-body div.details div.userDetails form button{
     min-width: 100px;
     font-size: 18px;
     margin-top: 25px;
-    padding: 9px 16px;
+    padding: 6px 6px;
     border-radius: 10px;
     border: none;
     cursor: pointer;
-    color: #01188a;
+    color: #D08C60;
     user-select: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
   
 main section.third-body div.details div.userDetails form button:hover{
-    background-color: #01188a;
+    background-color: #D08C60;
     color: #F2F2F2;
 }
 
@@ -324,92 +349,33 @@ main section.fourth-body{
     padding: 17px;
     margin: 0;
     margin-bottom: 70px;
+        display: flex;
+    justify-content: center;
+    text-align: center;
 }
 
-main section.fourth-body div.details span.header{
-    margin: 0;
-    font-size: 40px;
-    color: #01188a;
-}
-
-main section.fourth-body div.details p.description{
-    margin-top: 10px;
-    font-size: 20px;
-    color: #afce44;
-}
-
-main section.fourth-body div.details div.contactContainer{
-    display: flex;
-}
-
-main section.fourth-body div.details div.contactContainer div.contactBox{
-    width: 50%;
+main section.fourth-body div.details{
+    width: 300px;
     height: auto;
-    margin-top: 20px;
-    margin-right: 20px;
-    padding: 30px 25px 15px;
-    border: 2px solid #5c5c5c;
-    border-radius: 6px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.37),
+    inset 0 0 30px #FFCB7030,
+    0 0 30px #FFCB7030;
+    padding: 32px;
+    border-radius: 20px;
 }
 
-main section.fourth-body div.details div.contactContainer div.contactBox:first-child{
-    margin-right: 0;
+main section.fourth-body div.details img.locationImg{
+    width: 100%;
+    user-select: none;
 }
 
-main section.fourth-body div.details div.contactContainer div.contactBox i{
+
+main section.fourth-body div.details i{
     display: block;
     font-size: 45px;
-    color: #01188a;
-}
-
-main section.fourth-body div.details div.contactContainer div.contactBox span.contactType{
-    display: block;
-    font-size: 22px;
-    color: #000;
-}
-
-main section.fourth-body div.details div.contactContainer div.contactBox p.contactInfo{
-    display: block;
-    margin-bottom: 0;
-}
-
-@media screen and (max-width: 600px){
-    
-    main section.fourth-body div.details div.contactContainer{
-        display: inline-block;
-    }
-
-    main section.fourth-body div.details div.contactContainer div.contactBox{
-        width: 80%;
-        margin-right: 0px;
-    }
-}
-
-
-a.toTop{
-    cursor: pointer;
-    user-select: none;
-    text-align: center;
-    text-decoration: none;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    position: fixed;
-    color: #F2F2F2;
-    background: rgb(25, 45, 29);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    padding-top: 1%;
-    font-size: 2em;
-    right: 1rem;
-    bottom: 1rem;
-    width: 3rem;
-    height: 3rem;
-    transition: opacity 0.3s;
-    background: transparent;
-}
-
-a.toTop:hover{
     color: #01188a;
 }
 
@@ -428,17 +394,13 @@ footer{
     border-bottom: none;
     box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.37),
-    inset 0 0 30px rgba(80, 255, 153, 0.15),
-    0 0 30px rgba(43, 226, 76, 0.2);
+    inset 0 0 30px #FFCB7030,
+    0 0 30px #FFCB7030;
     padding: 0 30px;
     align-items: center;
     justify-content: space-between;
     z-index: 1000;
     overflow: hidden;
-}
-
-footer span.line, span.line-last{
-    color: #afce44;
 }
 
 footer div.contact a{
@@ -450,13 +412,13 @@ footer div.contact a:hover{
 }
 
 footer div.contact a i{
-    color: #afce44;
+    color: #797D62;
     font-size: 28px;
     margin: 0px 10px;
 }
 
 footer div.contact a i:hover{
-    color: #01188a;
+    color: #9B9B7A;
 }
 
 footer div.copyright p{
@@ -465,4 +427,75 @@ footer div.copyright p{
     font-weight: 400;
     margin-top: 0px;
     margin-bottom: 0px;
+}
+
+
+
+
+@media screen and (max-width: 600px){
+
+    /* nav.navbar{
+        padding-left: 12px;
+        padding-right: 12px;
+    } */
+
+    nav.navbar div.nav-right{
+        display: none;
+    }
+
+    nav.navbar div.dropdown{
+        display: block;
+    }
+
+    nav.navbar div.dropdown div.slideMenu{
+        font-size: 22px;
+        width: auto;
+        border: none;
+        cursor: pointer;
+        text-align: right;
+      }
+
+      nav.navbar div.dropdown div.slideMenu:hover i{
+        transform: translateX(-2px);
+      }
+
+    
+    nav.navbar div.dropdown div.dropdownContent {
+      position: absolute;
+      top: 60px;
+      width: 90%;
+      right: 0px;
+      max-width: 300px;
+      min-width: 230px;
+      max-height: 300px;
+      min-height: 230;
+      overflow: hidden;
+      user-select: none;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.37),
+        inset 0 0 30px #FFCB7030,
+        0 0 30px #FFCB7030;
+       z-index: -1;
+      transition: 0.5s;
+      opacity: 0;
+    }
+    
+    nav.navbar div.dropdown div.dropdownContent a{
+      color: black;
+      padding: 14px 16px;
+      font-size: 16px;
+      font-weight: 500;
+      text-decoration: none;
+      display: block;
+    }
+    
+    nav.navbar div.dropdown div.dropdownContent a:hover {
+        background-color: #FFCB7015;
+        box-shadow: #FFCB7015;
+        transform: scale(1.05);
+    }
 }
