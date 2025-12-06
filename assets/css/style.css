@@ -434,10 +434,10 @@ footer div.copyright p{
 
 @media screen and (max-width: 600px){
 
-    /* nav.navbar{
-        padding-left: 12px;
-        padding-right: 12px;
-    } */
+    nav.navbar{
+        padding-left: 18px;
+        padding-right: 18px;
+    }
 
     nav.navbar div.nav-right{
         display: none;
@@ -453,6 +453,7 @@ footer div.copyright p{
         border: none;
         cursor: pointer;
         text-align: right;
+        transition: 0.8s;
       }
 
       nav.navbar div.dropdown div.slideMenu:hover i{
@@ -461,16 +462,22 @@ footer div.copyright p{
 
     
     nav.navbar div.dropdown div.dropdownContent {
-      position: absolute;
-      top: 60px;
-      width: 90%;
-      right: 0px;
-      max-width: 300px;
-      min-width: 230px;
-      max-height: 300px;
-      min-height: 230;
-      overflow: hidden;
-      user-select: none;
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        transform: translateX(100%);
+        top: 80px;
+        width: 90%;
+        right: 0px;
+        max-width: 300px;
+        min-width: 230px;
+        max-height: 300px;
+        min-height: 230;
+        user-select: none;
+        border: none;
+        border-top: none;
+        visibility: hidden;
+        transition: 0.5s;
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border-radius: 20px;
@@ -479,22 +486,28 @@ footer div.copyright p{
         0 8px 32px rgba(0, 0, 0, 0.37),
         inset 0 0 30px #FFCB7030,
         0 0 30px #FFCB7030;
-       z-index: -1;
-      transition: 0.5s;
-      opacity: 0;
+        background: #c3c6cebd;
+        padding: 12px 16px;
     }
     
     nav.navbar div.dropdown div.dropdownContent a{
-      color: black;
-      padding: 14px 16px;
-      font-size: 16px;
-      font-weight: 500;
-      text-decoration: none;
-      display: block;
+        color: #fff2e9;
+        background: #797d62ee;
+        margin-top: 10px;
+        padding: 14px 16px;
+        font-size: 18px;
+        border-radius: 12px;
+        font-weight: 500;
+        text-decoration: none;
+        display: block;
+    }
+
+    nav.navbar div.dropdown div.dropdownContent a:first-child{
+        margin-top: 0px;
     }
     
     nav.navbar div.dropdown div.dropdownContent a:hover {
-        background-color: #FFCB7015;
+        background-color: #797D62;
         box-shadow: #FFCB7015;
         transform: scale(1.05);
     }
