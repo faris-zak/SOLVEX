@@ -229,7 +229,9 @@ main section.first-body{
 main section.first-body div.details span.header{
     margin: 0;
     font-size: 32px;
-    color: #afce44;
+    font-weight: 600;
+    color: #fdc500;
+
 }
 
 main section.first-body div.details p.description{
@@ -478,6 +480,7 @@ footer div.copyright p{
         border: none;
         border-top: none;
         visibility: hidden;
+        padding: 12px;
         transition: 0.5s;
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
@@ -485,8 +488,8 @@ footer div.copyright p{
         border: 1px solid rgba(255, 255, 255, 0.1);
         box-shadow: 
         0 8px 32px rgba(0, 0, 0, 0.37),
-        inset 0 0 30px #FFCB7030,
-        0 0 30px #FFCB7030;
+        inset 0 0 30px #a5be0015,
+        0 0 30px #a5be0015;
        z-index: -1;
       transition: 0.5s;
       opacity: 0;
@@ -494,7 +497,7 @@ footer div.copyright p{
     
     nav.navbar div.dropdown div.dropdownContent a{
         color: #fff2e9;
-        background: #797d62ee;
+        background: #679436;
         margin-top: 10px;
         padding: 14px 16px;
         font-size: 18px;
@@ -509,7 +512,7 @@ footer div.copyright p{
     }
     
     nav.navbar div.dropdown div.dropdownContent a:hover {
-        background-color: #FFCB7015;
+        background-color: #4e7029;
         box-shadow: #FFCB7015;
         transform: scale(1.05);
     }
