@@ -16,26 +16,25 @@
 }
 
 ::-webkit-scrollbar-track {
-    background: #9B9B7A;
+    background: #EBF2FA;
     border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #9B9B7A;
+    background: #679436;
     border-radius: 6px;
     border: 2.5px solid #c3c6ce;
     transition: all 0.2s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #797D62;
     cursor: grab;
 }
 
 /* Firefox */
 body {
     scrollbar-width: thin;
-    scrollbar-color: #9B9B7A #c3c6ce;
+    scrollbar-color: #679436 #EBF2FA;
 }
 
 html{
@@ -46,7 +45,7 @@ body {
     color: black;
     min-height: 100vh;
     background-size: 400% 400%;
-    background-color: #fff2e9;
+    background-color: #EBF2FA;
     text-align: center;
 
 }
@@ -69,8 +68,8 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.37),
-    inset 0 0 30px #FFCB7030,
-    0 0 30px #FFCB7030;
+    inset 0 0 30px #a5be0030,
+    0 0 30px #a5be0030;
     border-top: none;
     padding: 0 30px;
     display: flex;
@@ -126,8 +125,8 @@ a{
 }
 
 .nav-icon:hover {
-    background: #FFCB7015;
-    box-shadow: #FFCB7015;
+    background: #a5be0015;
+    box-shadow: #a5be0015;
     transform: scale(1.05);
 }
 
@@ -194,13 +193,13 @@ main section.first-head div.details span.header{
 }
 
 main section.first-head div.details span.header span.mainWord{
-    color: #797D62;
+    color: #fdc500;
     font-weight: 700;
     user-select: none;
 }
 
 main section.first-head div.details span.header span.mainWord span.hashtag{
-    color: #FFCB70;
+    color: #A5BE00;
     margin-left: 5px;
 }
 
@@ -230,7 +229,8 @@ main section.first-body{
 main section.first-body div.details span.header{
     margin: 0;
     font-size: 32px;
-    color: #afce44;
+    color: #fdc500;
+    font-weight: 600;
 }
 
 main section.first-body div.details p.description{
@@ -249,7 +249,8 @@ main section.second-body{
 main section.second-body div.details span.header{
     margin: 0;
     font-size: 40px;
-    color: #D08C60;
+    color: #fdc500;
+    font-weight: 600;
 }
 
 main section.second-body div.details div.image-slider{
@@ -301,7 +302,8 @@ main section.third-body{
 main section.third-body div.details span.header{
     margin: 0;
     font-size: 32px;
-    color: #797D62;
+    color: #fdc500;
+    font-weight: 600;
 }
 
 main section.third-body div.details p.description{
@@ -331,14 +333,14 @@ main section.third-body div.details div.userDetails form button{
     border-radius: 10px;
     border: none;
     cursor: pointer;
-    color: #D08C60;
+    color: #fdc500;
     user-select: none;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
   
 main section.third-body div.details div.userDetails form button:hover{
-    background-color: #D08C60;
-    color: #F2F2F2;
+    background-color: #fdc500;
+    color: #EBF2FA;
 }
 
 main section.third-body div.details div.userDetails form button:active{
@@ -361,8 +363,8 @@ main section.fourth-body div.details{
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.37),
-    inset 0 0 30px #FFCB7030,
-    0 0 30px #FFCB7030;
+    inset 0 0 30px #a5be0030,
+    0 0 30px #a5be0030;
     padding: 32px;
     border-radius: 20px;
 }
@@ -376,7 +378,7 @@ main section.fourth-body div.details img.locationImg{
 main section.fourth-body div.details i{
     display: block;
     font-size: 45px;
-    color: #01188a;
+    color: #fdc500;
 }
 
 footer{
@@ -394,8 +396,8 @@ footer{
     border-bottom: none;
     box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.37),
-    inset 0 0 30px #FFCB7030,
-    0 0 30px #FFCB7030;
+    inset 0 0 30px #a5be0030,
+    0 0 30px #a5be0030;
     padding: 0 30px;
     align-items: center;
     justify-content: space-between;
@@ -412,19 +414,19 @@ footer div.contact a:hover{
 }
 
 footer div.contact a i{
-    color: #797D62;
+    color: #fdc500;
     font-size: 28px;
     margin: 0px 10px;
 }
 
 footer div.contact a i:hover{
-    color: #9B9B7A;
+    color: #fdb500;
 }
 
 footer div.copyright p{
     font-size: 16px;
     position: relative;
-    font-weight: 400;
+    font-weight: 600;
     margin-top: 0px;
     margin-bottom: 0px;
 }
@@ -477,8 +479,8 @@ footer div.copyright p{
         border: 1px solid rgba(255, 255, 255, 0.1);
         box-shadow: 
         0 8px 32px rgba(0, 0, 0, 0.37),
-        inset 0 0 30px #FFCB7030,
-        0 0 30px #FFCB7030;
+        inset 0 0 30px #a5be0030,
+        0 0 30px #a5be0030;
        z-index: -1;
       transition: 0.5s;
       opacity: 0;
@@ -494,8 +496,8 @@ footer div.copyright p{
     }
     
     nav.navbar div.dropdown div.dropdownContent a:hover {
-        background-color: #FFCB7015;
-        box-shadow: #FFCB7015;
+        background-color: #a5be0015;
+        box-shadow: #a5be0015;
         transform: scale(1.05);
     }
 }
