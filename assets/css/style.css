@@ -382,6 +382,37 @@ main section.fourth-body div.details i{
     color: #fdc500;
 }
 
+a.dashboard{
+    cursor: pointer;
+    user-select: none;
+    text-align: center;
+    text-decoration: none;
+    position: fixed;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.37),
+    inset 0 0 30px #a5be0030,
+    0 0 30px #a5be0030;
+    font-size: 21px;
+    right: 1rem;
+    bottom: 1rem;
+    width: 3rem;
+    height: 3rem;
+    transition: opacity 0.3s;
+    color: #679436;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+a.dashboard:hover{
+    color: #4e7029;
+}
+
 footer{
     width: 90%;
     max-width: 800px;

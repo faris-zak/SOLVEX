@@ -1,0 +1,1985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Innovative solutions for sustainable growth with SOLVEX.">
+    <meta name="author" content="SOLVEX">
+    <meta name="keywords" content="">
+    <meta name="theme-color" content="#EBF2FA">
+    <meta name="mobile-web-app-capable" content="yes">
+    
+  <title>SOLVEX - Thermal Energy Control Panel</title>
+
+  <link rel="icon" href="assets/images/solvex-icon.png" type="image/png">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #0f1724;
+      --card: #0b1220;
+      --text: #e6eef6;
+      --muted: #94a3b8;
+      --accent: #fdc500;
+      --success: #A5BE00;
+      --danger: #ef4444;
+      --border: rgba(255,255,255,0.08);
+    }
+
+    [data-theme="light"] {
+      --bg: #EBF2FA;
+      --card: #ffffff;
+      --text: #1a1a1a;
+      --muted: #666666;
+      --border: rgba(0,0,0,0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, var(--accent), var(--success));
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo {
+      width: 50px;
+      height: 50px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    h1 {
+      color: white;
+      font-size: 1.8em;
+      font-weight: 700;
+    }
+
+    .header-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background: white;
+      color: #333;
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-family: 'Tajawal', sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: var(--card);
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    .stat-icon {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 0.9em;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 2em;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .battery-bar-container {
+      background: var(--border);
+      height: 10px;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .battery-bar {
+      background: linear-gradient(90deg, var(--success), var(--accent));
+      height: 100%;
+      transition: width 0.5s ease;
+    }
+
+    .battery-percent {
+      font-size: 0.8em;
+      color: var(--muted);
+      margin-top: 5px;
+    }
+
+    /* Floor Plan */
+    .floor-plan-section {
+      background: var(--card);
+      padding: 25px;
+      border-radius: 15px;
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 1.4em;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .floor-plan {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .tile {
+      aspect-ratio: 1;
+      background: var(--card);
+      border: 3px solid var(--border);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s ease;
+      padding: 15px;
+    }
+
+    .tile:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+
+    .tile.online {
+      border-color: var(--success);
+      background: linear-gradient(135deg, rgba(165,190,0,0.1), rgba(165,190,0,0.05));
+    }
+
+    .tile.offline {
+      border-color: var(--danger);
+      background: linear-gradient(135deg, rgba(239,68,68,0.1), rgba(239,68,68,0.05));
+      opacity: 0.7;
+    }
+
+    .tile.disabled {
+      border-color: #666;
+      background: linear-gradient(135deg, rgba(100,100,100,0.1), rgba(100,100,100,0.05));
+      opacity: 0.5;
+    }
+
+    .tile-id {
+      font-size: 0.9em;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .tile-power {
+      font-size: 1.3em;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 5px;
+    }
+
+    .tile-temp {
+      font-size: 0.85em;
+      color: var(--muted);
+    }
+
+    .tile-status-dot {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    .tile.online .tile-status-dot {
+      background: var(--success);
+    }
+
+    .tile.offline .tile-status-dot {
+      background: var(--danger);
+    }
+
+    .tile.disabled .tile-status-dot {
+      background: #666;
+      animation: none;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Charts */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .chart-card {
+      background: var(--card);
+      padding: 20px;
+      border-radius: 15px;
+      border: 1px solid var(--border);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal.show {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-content {
+      background: var(--card);
+      padding: 30px;
+      border-radius: 20px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+
+    .modal.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 28px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: var(--text);
+    }
+
+    .spec-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-controls {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .modal-controls .btn {
+      flex: 1;
+    }
+
+    /* Alert */
+    .alert {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--card);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+      z-index: 2000;
+      display: none;
+      max-width: 350px;
+      border-left: 5px solid var(--accent);
+      animation: slideIn 0.3s ease;
+    }
+
+    .alert.show {
+      display: block;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    /* Environmental Section */
+    .env-section {
+      background: linear-gradient(135deg, rgba(165,190,0,0.15), rgba(253,197,0,0.1));
+      padding: 25px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(165,190,0,0.3);
+    }
+
+    .env-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .env-card {
+      background: rgba(0,0,0,0.1);
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .env-card h3 {
+      margin-bottom: 10px;
+      font-size: 1.1em;
+    }
+
+    .env-card p {
+      font-size: 0.9em;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    /* Location Grid Legend */
+    .location-legend {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 15px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      font-size: 0.9em;
+    }
+
+    .legend-icon {
+      font-size: 1.3em;
+    }
+
+    /* FAQ */
+    .faq-section {
+      background: var(--card);
+      padding: 25px;
+      border-radius: 15px;
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 15px 0;
+    }
+
+    .faq-question {
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: color 0.3s ease;
+    }
+
+    .faq-question:hover {
+      color: var(--accent);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      color: var(--muted);
+    }
+
+    .faq-answer.open {
+      max-height: 500px;
+      padding-top: 10px;
+    }
+
+    /* Print Styles */
+    @media print {
+      body {
+        background: white;
+        color: black;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .modal, .alert {
+        display: none !important;
+      }
+    }
+
+    /* RTL Support */
+    [dir="rtl"] {
+      direction: rtl;
+    }
+
+    [dir="rtl"] .logo-section {
+      flex-direction: row-reverse;
+    }
+
+    [dir="rtl"] .alert {
+      right: auto;
+      left: 20px;
+    }
+
+    /* Responsive Design - Mobile First Approach */
+    
+    /* Large Screens (1400px+) */
+    @media (min-width: 1400px) {
+      .container {
+        max-width: 1600px;
+      }
+      
+      .stats-grid {
+        grid-template-columns: repeat(6, 1fr);
+      }
+    }
+
+    /* Desktop (992px - 1399px) */
+    @media (min-width: 992px) and (max-width: 1399px) {
+      .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      
+      .floor-plan {
+        max-width: 900px;
+      }
+    }
+
+    /* Tablet Landscape (768px - 991px) */
+    @media (min-width: 768px) and (max-width: 991px) {
+      .container {
+        padding: 15px;
+      }
+
+      header {
+        padding: 15px;
+      }
+
+      h1 {
+        font-size: 1.5em;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+
+      .stat-card {
+        padding: 15px;
+      }
+
+      .stat-value {
+        font-size: 1.6em;
+      }
+
+      .floor-plan {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        max-width: 700px;
+      }
+
+      .tile {
+        padding: 10px;
+      }
+
+      .tile-id {
+        font-size: 0.8em;
+      }
+
+      .tile-power {
+        font-size: 1.1em;
+      }
+
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .location-legend {
+        gap: 10px;
+      }
+
+      .legend-item {
+        padding: 6px 12px;
+        font-size: 0.85em;
+      }
+    }
+
+    /* Tablet Portrait (576px - 767px) */
+    @media (min-width: 576px) and (max-width: 767px) {
+      .container {
+        padding: 12px;
+      }
+
+      header {
+        padding: 12px;
+        gap: 10px;
+      }
+
+      h1 {
+        font-size: 1.3em;
+      }
+
+      .logo {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+      }
+
+      .header-controls {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .btn {
+        padding: 8px 15px;
+        font-size: 13px;
+        flex: 1;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .stat-card {
+        padding: 12px;
+      }
+
+      .stat-icon {
+        font-size: 1.5em;
+        margin-bottom: 5px;
+      }
+
+      .stat-value {
+        font-size: 1.4em;
+      }
+
+      .stat-label {
+        font-size: 0.8em;
+      }
+
+      .floor-plan {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        max-width: 100%;
+      }
+
+      .tile {
+        padding: 8px;
+      }
+
+      .tile-id {
+        font-size: 0.75em;
+        margin-bottom: 5px;
+      }
+
+      .tile-power {
+        font-size: 1em;
+      }
+
+      .tile-temp {
+        font-size: 0.75em;
+      }
+
+      .location-legend {
+        gap: 8px;
+        font-size: 0.8em;
+      }
+
+      .legend-item {
+        padding: 5px 10px;
+        font-size: 0.75em;
+      }
+
+      .legend-icon {
+        font-size: 1.1em;
+      }
+
+      .section-title {
+        font-size: 1.2em;
+        margin-bottom: 15px;
+      }
+
+      .charts-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .chart-card {
+        padding: 15px;
+      }
+
+      .env-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .env-card {
+        padding: 12px;
+      }
+
+      .env-card h3 {
+        font-size: 1em;
+      }
+
+      .env-card p {
+        font-size: 0.85em;
+      }
+
+      .faq-question {
+        font-size: 0.9em;
+      }
+
+      .faq-answer {
+        font-size: 0.85em;
+      }
+    }
+
+    /* Mobile Large (430px - 575px) */
+    @media (min-width: 430px) and (max-width: 575px) {
+      .container {
+        padding: 10px;
+      }
+
+      header {
+        padding: 12px;
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .logo-section {
+        justify-content: center;
+        margin-bottom: 10px;
+      }
+
+      h1 {
+        font-size: 1.2em;
+        text-align: center;
+      }
+
+      .logo {
+        width: 38px;
+        height: 38px;
+        font-size: 18px;
+      }
+
+      .header-controls {
+        width: 100%;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        padding: 8px 12px;
+        font-size: 12px;
+        flex: 1 1 calc(50% - 5px);
+        min-width: 0;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+
+      .stat-card {
+        padding: 10px;
+      }
+
+      .stat-icon {
+        font-size: 1.3em;
+        margin-bottom: 5px;
+      }
+
+      .stat-value {
+        font-size: 1.3em;
+      }
+
+      .stat-label {
+        font-size: 0.75em;
+      }
+
+      .battery-percent {
+        font-size: 0.7em;
+      }
+
+      .floor-plan {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+
+      .tile {
+        padding: 6px;
+        border-width: 2px;
+      }
+
+      .tile-id {
+        font-size: 0.7em;
+        margin-bottom: 3px;
+      }
+
+      .tile-power {
+        font-size: 0.9em;
+        margin-bottom: 2px;
+      }
+
+      .tile-temp {
+        font-size: 0.65em;
+      }
+
+      .tile-status-dot {
+        width: 10px;
+        height: 10px;
+        top: 6px;
+        right: 6px;
+      }
+
+      .location-legend {
+        gap: 6px;
+        font-size: 0.75em;
+      }
+
+      .legend-item {
+        padding: 4px 8px;
+        font-size: 0.7em;
+      }
+
+      .legend-icon {
+        font-size: 1em;
+      }
+
+      .section-title {
+        font-size: 1.1em;
+        margin-bottom: 12px;
+      }
+
+      .charts-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .chart-card {
+        padding: 12px;
+      }
+
+      canvas {
+        max-height: 200px !important;
+      }
+
+      .env-section {
+        padding: 15px;
+      }
+
+      .env-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .env-card {
+        padding: 10px;
+      }
+
+      .env-card h3 {
+        font-size: 0.95em;
+        margin-bottom: 6px;
+      }
+
+      .env-card p {
+        font-size: 0.8em;
+        line-height: 1.4;
+      }
+
+      .faq-section {
+        padding: 15px;
+      }
+
+      .faq-item {
+        padding: 10px 0;
+      }
+
+      .faq-question {
+        font-size: 0.85em;
+      }
+
+      .faq-answer {
+        font-size: 0.8em;
+      }
+
+      .modal-content {
+        padding: 20px;
+        max-width: 95%;
+      }
+
+      .spec-row {
+        padding: 8px 0;
+        font-size: 0.9em;
+      }
+
+      .modal-controls {
+        flex-direction: column;
+      }
+
+      .modal-controls .btn {
+        width: 100%;
+      }
+    }
+
+    /* Mobile Small (320px - 429px) */
+    @media (max-width: 429px) {
+      .container {
+        padding: 8px;
+      }
+
+      header {
+        padding: 10px;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 15px;
+      }
+
+      .logo-section {
+        justify-content: center;
+        gap: 10px;
+      }
+
+      h1 {
+        font-size: 1em;
+        text-align: center;
+      }
+
+      .logo {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+      }
+
+      .header-controls {
+        width: 100%;
+        gap: 6px;
+      }
+
+      .btn {
+        padding: 6px 10px;
+        font-size: 11px;
+        flex: 1 1 calc(50% - 3px);
+        border-radius: 6px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        margin-bottom: 15px;
+      }
+
+      .stat-card {
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .stat-icon {
+        font-size: 2em;
+        margin-bottom: 0;
+        flex-shrink: 0;
+      }
+
+      .stat-content {
+        flex: 1;
+      }
+
+      .stat-value {
+        font-size: 1.5em;
+      }
+
+      .stat-label {
+        font-size: 0.8em;
+        margin-bottom: 5px;
+      }
+
+      .battery-bar-container {
+        margin-top: 6px;
+        height: 8px;
+      }
+
+      .battery-percent {
+        font-size: 0.7em;
+        margin-top: 3px;
+      }
+
+      .floor-plan-section {
+        padding: 15px;
+        margin-bottom: 15px;
+      }
+
+      .floor-plan {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+      }
+
+      .tile {
+        padding: 5px;
+        border-width: 2px;
+        border-radius: 8px;
+      }
+
+      .tile-id {
+        font-size: 0.65em;
+        margin-bottom: 2px;
+      }
+
+      .tile-power {
+        font-size: 0.85em;
+        margin-bottom: 2px;
+      }
+
+      .tile-temp {
+        font-size: 0.6em;
+      }
+
+      .tile-status-dot {
+        width: 8px;
+        height: 8px;
+        top: 5px;
+        right: 5px;
+      }
+
+      .tile div[style*="position: absolute"] {
+        font-size: 0.9em !important;
+        top: 5px !important;
+        left: 5px !important;
+      }
+
+      .tile div[style*="font-size: 0.75em"] {
+        font-size: 0.6em !important;
+      }
+
+      .location-legend {
+        flex-direction: column;
+        gap: 6px;
+        margin-top: 10px;
+      }
+
+      .legend-item {
+        padding: 6px 10px;
+        font-size: 0.75em;
+        justify-content: center;
+      }
+
+      .legend-icon {
+        font-size: 1.2em;
+      }
+
+      .section-title {
+        font-size: 1em;
+        margin-bottom: 10px;
+      }
+
+      .charts-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-bottom: 15px;
+      }
+
+      .chart-card {
+        padding: 10px;
+      }
+
+      .chart-card h3 {
+        font-size: 0.95em;
+        margin-bottom: 8px;
+      }
+
+      canvas {
+        max-height: 180px !important;
+      }
+
+      .env-section {
+        padding: 12px;
+        margin-bottom: 15px;
+      }
+
+      .env-section h2 {
+        font-size: 1em;
+      }
+
+      .env-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .env-card {
+        padding: 10px;
+      }
+
+      .env-card h3 {
+        font-size: 0.9em;
+        margin-bottom: 5px;
+      }
+
+      .env-card p {
+        font-size: 0.75em;
+        line-height: 1.4;
+      }
+
+      .faq-section {
+        padding: 12px;
+        margin-bottom: 15px;
+      }
+
+      .faq-item {
+        padding: 8px 0;
+      }
+
+      .faq-question {
+        font-size: 0.8em;
+        gap: 8px;
+      }
+
+      .faq-question span:last-child {
+        font-size: 0.9em;
+      }
+
+      .faq-answer {
+        font-size: 0.75em;
+        line-height: 1.4;
+      }
+
+      .modal {
+        padding: 10px;
+      }
+
+      .modal-content {
+        padding: 15px;
+        max-width: 100%;
+        border-radius: 15px;
+      }
+
+      .modal-close {
+        font-size: 24px;
+        top: 10px;
+        right: 10px;
+      }
+
+      .modal-content h2 {
+        font-size: 1.1em;
+        margin-bottom: 12px;
+        padding-right: 30px;
+      }
+
+      .spec-row {
+        padding: 8px 0;
+        font-size: 0.85em;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 3px;
+      }
+
+      .spec-row span:last-child {
+        color: var(--accent);
+      }
+
+      .modal-controls {
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 15px;
+      }
+
+      .modal-controls .btn {
+        width: 100%;
+        padding: 10px;
+      }
+
+      .alert {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        padding: 12px;
+        font-size: 0.9em;
+      }
+
+      [dir="rtl"] .alert {
+        right: 10px;
+        left: 10px;
+      }
+    }
+
+    /* Extra Small Mobile (< 320px) */
+    @media (max-width: 319px) {
+      .floor-plan {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stats-grid {
+        gap: 6px;
+      }
+
+      h1 {
+        font-size: 0.9em;
+      }
+
+      .btn {
+        font-size: 10px;
+        padding: 5px 8px;
+      }
+    }
+
+    /* Landscape Mode for Mobile */
+    @media (max-height: 500px) and (orientation: landscape) {
+      .floor-plan {
+        grid-template-columns: repeat(6, 1fr);
+        max-width: none;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      header {
+        padding: 10px;
+      }
+
+      .modal-content {
+        max-height: 85vh;
+      }
+    }
+
+    /* Print Optimization */
+    @media print {
+      .floor-plan {
+        grid-template-columns: repeat(4, 1fr) !important;
+        page-break-inside: avoid;
+      }
+
+      .chart-card {
+        page-break-inside: avoid;
+      }
+
+      .stat-card {
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="alert" id="alert">
+    <strong id="alertTitle">Alert</strong>
+    <p id="alertMessage" style="margin: 5px 0 0 0;"></p>
+  </div>
+
+  <div class="container">
+    <header class="no-print">
+      <div class="logo-section">
+        <div class="logo">⚡</div>
+        <h1 id="mainTitle">SOLVEX Control Panel</h1>
+      </div>
+      <div class="header-controls">
+        <button class="btn" id="langBtn">العربية</button>
+        <button class="btn" id="themeBtn">🌙 Dark</button>
+        <button class="btn" id="reportBtn">📄 Report</button>
+        <button class="btn" id="simulateBtn">▶ Start</button>
+        <button class="btn" id="resetBtn">🔄 Reset</button>
+      </div>
+    </header>
+
+    <!-- Report Modal -->
+    <div id="reportModal" class="modal">
+      <div class="modal-content">
+        <button class="modal-close" onclick="closeReportModal()">×</button>
+        <h2 class="section-title" id="reportModalTitle">Generate Report</h2>
+        <div style="margin: 20px 0;">
+          <label style="display: block; margin-bottom: 10px; font-weight: 500;">Select Report Period:</label>
+          <select id="reportPeriod" class="btn" style="width: 100%; padding: 12px;">
+            <option value="daily">Daily Report</option>
+            <option value="weekly">Weekly Report</option>
+            <option value="monthly">Monthly Report</option>
+          </select>
+        </div>
+        <button class="btn" onclick="generateReport()" style="width: 100%; background: var(--accent); color: white;">Generate & Print</button>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">⚡</div>
+        <div class="stat-content">
+          <div class="stat-label" id="totalEnergyLabel">Total Energy Output</div>
+          <div class="stat-value"><span id="totalEnergy">0</span> <span style="font-size: 0.5em;">W</span></div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🔋</div>
+        <div class="stat-content">
+          <div class="stat-label" id="batteryLabel">Battery Storage</div>
+          <div class="stat-value" style="color: var(--success);"><span id="batteryStorage">45.5</span> <span style="font-size: 0.5em;">kWh</span></div>
+          <div class="battery-bar-container">
+            <div class="battery-bar" id="batteryBar" style="width: 45.5%"></div>
+          </div>
+          <div class="battery-percent"><span id="batteryPercent">45.5</span>% <span id="capacityLabel">Capacity</span></div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🌡️</div>
+        <div class="stat-content">
+          <div class="stat-label" id="ambientTempLabel">Ambient Temperature</div>
+          <div class="stat-value"><span id="ambientTemp">42</span> <span style="font-size: 0.5em;">°C</span></div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🔥</div>
+        <div class="stat-content">
+          <div class="stat-label" id="avgTempLabel">Avg Tile Temperature</div>
+          <div class="stat-value"><span id="avgTemp">70</span> <span style="font-size: 0.5em;">°C</span></div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">✓</div>
+        <div class="stat-content">
+          <div class="stat-label" id="activeTilesLabel">Active Tiles</div>
+          <div class="stat-value"><span id="activeTiles">11</span> <span style="font-size: 0.5em;">/ 12</span></div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📊</div>
+        <div class="stat-content">
+          <div class="stat-label" id="todayStoredLabel">Today's Total Stored</div>
+          <div class="stat-value"><span id="todayStored">0</span> <span style="font-size: 0.5em;">kWh</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="floor-plan-section">
+      <h2 class="section-title" id="floorPlanTitle">Thermal Tiles Floor Plan</h2>
+      <div class="location-legend">
+        <div class="legend-item">
+          <span class="legend-icon">🔷</span>
+          <span>North Zone (A1-A4)</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-icon">🔶</span>
+          <span>East Zone (B1-B4)</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-icon">🔴</span>
+          <span>South Zone (C1-C2)</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-icon">🟢</span>
+          <span>West Zone (D1-D2)</span>
+        </div>
+      </div>
+      <div class="floor-plan" id="floorPlan"></div>
+    </div>
+
+    <div class="charts-grid">
+      <div class="chart-card">
+        <h3 class="section-title" id="energyChartTitle">Energy Output Over Time</h3>
+        <canvas id="energyChart" height="120"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3 class="section-title" id="performanceChartTitle">Tile Performance Comparison</h3>
+        <canvas id="performanceChart" height="120"></canvas>
+      </div>
+    </div>
+
+    <div class="env-section">
+      <h2 class="section-title" id="envTitle">🌱 Environmental Integration</h2>
+      <div class="env-grid">
+        <div class="env-card">
+          <h3 id="plantSupportTitle">Plant Support System</h3>
+          <p id="plantSupportText">The heat absorbed by SOLVEX tiles helps regulate temperature for plants not adapted to Oman's extreme climate. By converting excess heat into energy, we create cooler microclimates suitable for diverse plant species.</p>
+        </div>
+        <div class="env-card">
+          <h3 id="tempBenefitsTitle">Temperature Differential Benefits</h3>
+          <p id="tempBenefitsText">The temperature difference between tiles (65-75°C) and ambient air (35-45°C) creates optimal conditions for thermoelectric conversion while reducing surface heat by up to 30%, benefiting nearby vegetation.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-section">
+      <h2 class="section-title" id="faqTitle">Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span id="q1">How does SOLVEX convert heat to electricity?</span>
+          <span>▼</span>
+        </div>
+        <div class="faq-answer" id="a1">SOLVEX uses thermoelectric generators that exploit the Seebeck effect. When one side of the tile absorbs heat from the sun while the other remains cooler, it creates a temperature gradient that generates electrical voltage.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span id="q2">What happens if a tile disconnects?</span>
+          <span>▼</span>
+        </div>
+        <div class="faq-answer" id="a2">The system automatically detects disconnections and sends an alert. Other tiles continue operating normally. You can remotely monitor and diagnose the issue through this control panel.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span id="q3">How does this benefit plant growth?</span>
+          <span>▼</span>
+        </div>
+        <div class="faq-answer" id="a3">By absorbing heat, the tiles reduce ambient temperature in their vicinity, creating microclimates that allow non-native plants to thrive. The 20-30°C temperature reduction provides conditions similar to more temperate climates.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span id="q4">Can I control tiles remotely?</span>
+          <span>▼</span>
+        </div>
+        <div class="faq-answer" id="a4">Yes! This control panel allows real-time monitoring and remote management. You can enable/disable tiles, view detailed specifications, and receive alerts from any device with internet access.</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tileModal" class="modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeTileModal()">×</button>
+      <h2 class="section-title" id="modalTitle">Tile Details</h2>
+      <div id="tileSpecs"></div>
+      <div class="modal-controls">
+        <button class="btn" id="modalEnableBtn" onclick="toggleTileFromModal()" style="background: var(--success); color: white;">Enable</button>
+        <button class="btn" id="modalDisableBtn" onclick="toggleTileFromModal()" style="background: var(--danger); color: white;">Disable</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const translations = {
+      en: {
+        mainTitle: 'SOLVEX Control Panel',
+        totalEnergyLabel: 'Total Energy Output',
+        batteryLabel: 'Battery Storage',
+        capacityLabel: 'Capacity',
+        ambientTempLabel: 'Ambient Temperature',
+        avgTempLabel: 'Avg Tile Temperature',
+        activeTilesLabel: 'Active Tiles',
+        todayStoredLabel: "Today's Total Stored",
+        floorPlanTitle: 'Thermal Tiles Floor Plan',
+        energyChartTitle: 'Energy Output Over Time',
+        performanceChartTitle: 'Tile Performance Comparison',
+        envTitle: '🌱 Environmental Integration',
+        plantSupportTitle: 'Plant Support System',
+        plantSupportText: "The heat absorbed by SOLVEX tiles helps regulate temperature for plants not adapted to Oman's extreme climate. By converting excess heat into energy, we create cooler microclimates suitable for diverse plant species.",
+        tempBenefitsTitle: 'Temperature Differential Benefits',
+        tempBenefitsText: "The temperature difference between tiles (65-75°C) and ambient air (35-45°C) creates optimal conditions for thermoelectric conversion while reducing surface heat by up to 30%, benefiting nearby vegetation.",
+        faqTitle: 'Frequently Asked Questions',
+        q1: 'How does SOLVEX convert heat to electricity?',
+        a1: 'SOLVEX uses thermoelectric generators that exploit the Seebeck effect. When one side of the tile absorbs heat from the sun while the other remains cooler, it creates a temperature gradient that generates electrical voltage.',
+        q2: 'What happens if a tile disconnects?',
+        a2: 'The system automatically detects disconnections and sends an alert. Other tiles continue operating normally. You can remotely monitor and diagnose the issue through this control panel.',
+        q3: 'How does this benefit plant growth?',
+        a3: 'By absorbing heat, the tiles reduce ambient temperature in their vicinity, creating microclimates that allow non-native plants to thrive. The 20-30°C temperature reduction provides conditions similar to more temperate climates.',
+        q4: 'Can I control tiles remotely?',
+        a4: 'Yes! This control panel allows real-time monitoring and remote management. You can enable/disable tiles, view detailed specifications, and receive alerts from any device with internet access.',
+        modalTitle: 'Tile Details',
+        tileEnabled: 'Tile Enabled',
+        tileDisabled: 'Tile Disabled',
+        tileDisconnected: 'Tile Disconnected',
+        batteryFull: 'Battery Nearly Full',
+        batteryFullMsg: 'Battery capacity at 95%. Consider energy usage.',
+        reportModalTitle: 'Generate Report'
+      },
+      ar: {
+        mainTitle: 'لوحة تحكم SOLVEX',
+        totalEnergyLabel: 'إجمالي إنتاج الطاقة',
+        batteryLabel: 'تخزين البطارية',
+        capacityLabel: 'السعة',
+        ambientTempLabel: 'درجة الحرارة المحيطة',
+        avgTempLabel: 'متوسط درجة حرارة البلاط',
+        activeTilesLabel: 'البلاط النشط',
+        todayStoredLabel: 'إجمالي التخزين اليوم',
+        floorPlanTitle: 'مخطط أرضية البلاط الحراري',
+        energyChartTitle: 'إنتاج الطاقة عبر الزمن',
+        performanceChartTitle: 'مقارنة أداء البلاط',
+        envTitle: '🌱 التكامل البيئي',
+        plantSupportTitle: 'نظام دعم النباتات',
+        plantSupportText: 'تساعد الحرارة التي يمتصها بلاط SOLVEX على تنظيم درجة الحرارة للنباتات غير المتكيفة مع مناخ عمان القاسي. من خلال تحويل الحرارة الزائدة إلى طاقة، نخلق مناخات صغيرة أكثر برودة مناسبة لأنواع نباتات متنوعة.',
+        tempBenefitsTitle: 'فوائد فرق درجات الحرارة',
+        tempBenefitsText: 'يخلق فرق درجة الحرارة بين البلاط (65-75 درجة مئوية) والهواء المحيط (35-45 درجة مئوية) ظروفًا مثالية للتحويل الكهروحراري مع تقليل حرارة السطح بنسبة تصل إلى 30٪، مما يفيد النباتات المجاورة.',
+        faqTitle: 'الأسئلة الشائعة',
+        q1: 'كيف يحول SOLVEX الحرارة إلى كهرباء؟',
+        a1: 'يستخدم SOLVEX مولدات كهروحرارية تستغل تأثير سيبيك. عندما يمتص جانب واحد من البلاط الحرارة من الشمس بينما يظل الجانب الآخر أكثر برودة، فإنه يخلق تدرجًا في درجة الحرارة يولد جهدًا كهربائيًا.',
+        q2: 'ماذا يحدث إذا انفصل البلاط؟',
+        a2: 'يكتشف النظام تلقائيًا الانفصالات ويرسل تنبيهًا. تستمر البلاطات الأخرى في العمل بشكل طبيعي. يمكنك مراقبة وتشخيص المشكلة عن بُعد من خلال لوحة التحكم هذه.',
+        q3: 'كيف يفيد هذا نمو النباتات؟',
+        a3: 'من خلال امتصاص الحرارة، يقلل البلاط من درجة الحرارة المحيطة في محيطها، مما يخلق مناخات صغيرة تسمح للنباتات غير المحلية بالازدهار. يوفر انخفاض درجة الحرارة بمقدار 20-30 درجة مئوية ظروفًا مشابهة للمناخات الأكثر اعتدالاً.',
+        q4: 'هل يمكنني التحكم في البلاط عن بُعد؟',
+        a4: 'نعم! تتيح لوحة التحكم هذه المراقبة في الوقت الفعلي والإدارة عن بُعد. يمكنك تمكين/تعطيل البلاط، وعرض المواصفات التفصيلية، وتلقي التنبيهات من أي جهاز متصل بالإنترنت.',
+        modalTitle: 'تفاصيل البلاط',
+        tileEnabled: 'تم تمكين البلاط',
+        tileDisabled: 'تم تعطيل البلاط',
+        tileDisconnected: 'انفصل البلاط',
+        batteryFull: 'البطارية شبه ممتلئة',
+        batteryFullMsg: 'سعة البطارية عند 95٪. يرجى النظر في استخدام الطاقة.',
+        reportModalTitle: 'إنشاء تقرير'
+      }
+    };
+
+    let currentLang = 'en';
+    let currentTheme = 'dark';
+    let tiles = [];
+    let energyChart, performanceChart;
+    let simInterval = null;
+    let selectedTileId = null;
+
+    const state = {
+      batteryCapacity: 100,
+      currentBatteryStorage: 45.5,
+      todayTotalStored: 0,
+      ambientTemp: 42
+    };
+
+    function initTiles() {
+      tiles = [];
+      const statuses = ['online','online','online','offline','online','online','online','online','online','online','online','online'];
+      const zones = ['North', 'North', 'North', 'North', 'East', 'East', 'East', 'East', 'South', 'South', 'West', 'West'];
+      const zoneIcons = ['🔷', '🔶', '🔴', '🟢'];
+      const rows = ['A', 'A', 'A', 'A', 'B', 'B', 'B', 'B', 'C', 'C', 'D', 'D'];
+      const cols = [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 1, 2];
+      
+      for(let i = 1; i <= 12; i++) {
+        tiles.push({
+          id: `PL-${String(i).padStart(3,'0')}`,
+          power: Math.floor(Math.random() * 4000 + 2000),
+          temp: +(Math.random() * 5 + 47).toFixed(1),
+          status: statuses[i - 1],
+          enabled: true,
+          voltage: +(Math.random() * 2 + 10).toFixed(2),
+          efficiency: +(Math.random() * 15 + 80).toFixed(1),
+          lastSeen: Date.now(),
+          zone: zones[i - 1],
+          zoneIcon: zoneIcons[Math.floor((i - 1) / 3) % 4],
+          row: rows[i - 1],
+          col: cols[i - 1],
+          gridPosition: `${rows[i - 1]}${cols[i - 1]}`,
+          coordinates: {
+            lat: (23.5880 + (Math.random() - 0.5) * 0.01).toFixed(6),
+            lng: (58.3829 + (Math.random() - 0.5) * 0.01).toFixed(6)
+          }
+        });
+      }
+    }
+
+    function renderFloorPlan() {
+      const floorPlan = document.getElementById('floorPlan');
+      floorPlan.innerHTML = '';
+      
+      tiles.forEach(tile => {
+        const tileDiv = document.createElement('div');
+        const statusClass = !tile.enabled ? 'disabled' : tile.status;
+        tileDiv.className = `tile ${statusClass}`;
+        tileDiv.onclick = () => openTileModal(tile.id);
+        
+        tileDiv.innerHTML = `
+          <div class="tile-status-dot"></div>
+          <div style="position: absolute; top: 10px; left: 10px; font-size: 1.2em;">${tile.zoneIcon}</div>
+          <div class="tile-id">${tile.id}</div>
+          <div style="font-size: 0.75em; color: var(--muted); margin: 2px 0;">${tile.gridPosition}</div>
+          <div class="tile-power">${tile.power} W</div>
+          <div class="tile-temp">${tile.temp}°C</div>
+        `;
+        
+        floorPlan.appendChild(tileDiv);
+      });
+    }
+
+    function updateStats() {
+      const activeTiles = tiles.filter(t => t.status === 'online' && t.enabled);
+      const totalPower = activeTiles.reduce((sum, t) => sum + t.power, 0);
+      const avgTemp = activeTiles.length > 0 ? 
+        activeTiles.reduce((sum, t) => sum + t.temp, 0) / activeTiles.length : 0;
+      
+      document.getElementById('totalEnergy').textContent = totalPower.toFixed(0);
+      document.getElementById('batteryStorage').textContent = state.currentBatteryStorage.toFixed(2);
+      document.getElementById('batteryPercent').textContent = (state.currentBatteryStorage / state.batteryCapacity * 100).toFixed(1);
+      document.getElementById('batteryBar').style.width = (state.currentBatteryStorage / state.batteryCapacity * 100) + '%';
+      document.getElementById('ambientTemp').textContent = state.ambientTemp.toFixed(1);
+      document.getElementById('avgTemp').textContent = avgTemp.toFixed(1);
+      document.getElementById('activeTiles').textContent = activeTiles.length;
+      document.getElementById('todayStored').textContent = state.todayTotalStored.toFixed(2);
+    }
+
+    function initCharts() {
+      if(energyChart) energyChart.destroy();
+      if(performanceChart) performanceChart.destroy();
+
+      const ctx1 = document.getElementById('energyChart');
+      energyChart = new Chart(ctx1, {
+        type: 'line',
+        data: {
+          labels: [],
+          datasets: [{
+            label: 'Energy (W)',
+            data: [],
+            borderColor: '#fdc500',
+            backgroundColor: 'rgba(253,197,0,0.1)',
+            tension: 0.3,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          scales: { y: { beginAtZero: true } }
+        }
+      });
+
+      const ctx2 = document.getElementById('performanceChart');
+      performanceChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+          labels: tiles.map(t => t.id),
+          datasets: [{
+            label: 'Power (W)',
+            data: tiles.map(t => t.enabled && t.status === 'online' ? t.power : 0),
+            backgroundColor: tiles.map(t => 
+              t.enabled && t.status === 'online' ? '#A5BE00' : 
+              !t.enabled ? '#666' : '#ef4444'
+            )
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          scales: { y: { beginAtZero: true } }
+        }
+      });
+    }
+
+    function updateCharts() {
+      const activeTiles = tiles.filter(t => t.status === 'online' && t.enabled);
+      const totalPower = activeTiles.reduce((sum, t) => sum + t.power, 0);
+      
+      const now = new Date().toLocaleTimeString();
+      energyChart.data.labels.push(now);
+      energyChart.data.datasets[0].data.push(totalPower);
+      
+      if(energyChart.data.labels.length > 20) {
+        energyChart.data.labels.shift();
+        energyChart.data.datasets[0].data.shift();
+      }
+      energyChart.update();
+
+      performanceChart.data.datasets[0].data = tiles.map(t => 
+        t.enabled && t.status === 'online' ? t.power : 0
+      );
+      performanceChart.data.datasets[0].backgroundColor = tiles.map(t => 
+        t.enabled && t.status === 'online' ? '#A5BE00' : 
+        !t.enabled ? '#666' : '#ef4444'
+      );
+      performanceChart.update();
+    }
+
+    function openTileModal(tileId) {
+      selectedTileId = tileId;
+      const tile = tiles.find(t => t.id === tileId);
+      if(!tile) return;
+
+      document.getElementById('modalTitle').textContent = `${tile.id} - ${translations[currentLang].modalTitle}`;
+      document.getElementById('tileSpecs').innerHTML = `
+        <div class="spec-row">
+          <span>Tile ID:</span>
+          <span><strong>${tile.id}</strong></span>
+        </div>
+        <div class="spec-row">
+          <span>Grid Position:</span>
+          <span><strong>${tile.gridPosition} (Row ${tile.row}, Column ${tile.col})</strong></span>
+        </div>
+        <div class="spec-row">
+          <span>Zone:</span>
+          <span><strong>${tile.zoneIcon} ${tile.zone} Zone</strong></span>
+        </div>
+        <div class="spec-row">
+          <span>GPS Coordinates:</span>
+          <span><strong>${tile.coordinates.lat}°N, ${tile.coordinates.lng}°E</strong></span>
+        </div>
+        <div class="spec-row">
+          <span>Power Output:</span>
+          <span><strong>${tile.power} W</strong></span>
+        </div>
+        <div class="spec-row">
+          <span>Surface Temperature:</span>
+          <span><strong>${tile.temp}°C</strong></span>
+        </div>
+        <div class="spec-row">
+          <span>Status:</span>
+          <span><strong>${!tile.enabled ? 'Disabled' : tile.status}</strong></span>
+        </div>
+        <div class="spec-row">
+          <span>Voltage:</span>
+          <span><strong>${tile.voltage} V</strong></span>
+        </div>
+        <div class="spec-row">
+          <span>Efficiency:</span>
+          <span><strong>${tile.efficiency}%</strong></span>
+        </div>
+        <div class="spec-row">
+          <span>Last Seen:</span>
+          <span><strong>${new Date(tile.lastSeen).toLocaleString()}</strong></span>
+        </div>
+        <div style="margin-top: 20px; padding: 15px; background: rgba(165,190,0,0.1); border-radius: 8px; border-left: 4px solid var(--success);">
+          <strong>📍 Location Details:</strong>
+          <div style="margin-top: 8px; font-size: 0.9em; color: var(--muted);">
+            This tile is located in the <strong>${tile.zone} Zone</strong> at grid position <strong>${tile.gridPosition}</strong>. 
+            It can be identified by the <strong>${tile.zoneIcon}</strong> symbol on the floor plan.
+          </div>
+        </div>
+      `;
+
+      document.getElementById('modalEnableBtn').style.display = tile.enabled ? 'none' : 'block';
+      document.getElementById('modalDisableBtn').style.display = tile.enabled ? 'block' : 'none';
+
+      document.getElementById('tileModal').classList.add('show');
+    }
+
+    function closeTileModal() {
+      document.getElementById('tileModal').classList.remove('show');
+      selectedTileId = null;
+    }
+
+    function toggleTileFromModal() {
+      if(!selectedTileId) return;
+      const tile = tiles.find(t => t.id === selectedTileId);
+      if(!tile) return;
+
+      tile.enabled = !tile.enabled;
+      if(tile.enabled && tile.status === 'offline') {
+        tile.status = 'online';
+      }
+
+      showAlert(
+        tile.enabled ? translations[currentLang].tileEnabled : translations[currentLang].tileDisabled,
+        `${tile.id} ${tile.enabled ? 'enabled' : 'disabled'}`
+      );
+
+      closeTileModal();
+      renderFloorPlan();
+      updateStats();
+      updateCharts();
+    }
+
+    function showAlert(title, message) {
+      document.getElementById('alertTitle').textContent = title;
+      document.getElementById('alertMessage').textContent = message;
+      document.getElementById('alert').classList.add('show');
+      setTimeout(() => {
+        document.getElementById('alert').classList.remove('show');
+      }, 4000);
+    }
+
+    function startSimulation() {
+      if(simInterval) return;
+      
+      document.getElementById('simulateBtn').textContent = '⏸ Pause';
+      
+      simInterval = setInterval(() => {
+        state.ambientTemp += (Math.random() - 0.5) * 0.8;
+        state.ambientTemp = Math.max(38, Math.min(48, state.ambientTemp));
+
+        tiles.forEach(tile => {
+          if(tile.enabled && tile.status === 'online') {
+            tile.power = Math.max(1000, tile.power + (Math.random() - 0.5) * 300);
+            tile.temp = Math.max(45, Math.min(52, tile.temp + (Math.random() - 0.5) * 1));
+          }
+
+          if(Math.random() < 0.01 && tile.enabled) {
+            tile.status = tile.status === 'online' ? 'offline' : 'online';
+            if(tile.status === 'offline') {
+              showAlert(translations[currentLang].tileDisconnected, `${tile.id} disconnected`);
+            }
+          }
+          tile.lastSeen = Date.now();
+        });
+
+        const activeTiles = tiles.filter(t => t.status === 'online' && t.enabled);
+        const totalPower = activeTiles.reduce((sum, t) => sum + t.power, 0);
+        const chargeRate = (totalPower / 1000) * (1.5 / 3600);
+
+        if(state.currentBatteryStorage < state.batteryCapacity) {
+          state.currentBatteryStorage = Math.min(state.batteryCapacity, state.currentBatteryStorage + chargeRate);
+          state.todayTotalStored += chargeRate;
+        }
+
+        if(state.currentBatteryStorage >= state.batteryCapacity * 0.95 && Math.random() > 0.97) {
+          showAlert(translations[currentLang].batteryFull, translations[currentLang].batteryFullMsg);
+        }
+
+        renderFloorPlan();
+        updateStats();
+        updateCharts();
+      }, 1500);
+    }
+
+    function stopSimulation() {
+      if(simInterval) {
+        clearInterval(simInterval);
+        simInterval = null;
+        document.getElementById('simulateBtn').textContent = '▶ Start';
+      }
+    }
+
+    function resetSystem() {
+      stopSimulation();
+      state.currentBatteryStorage = 45.5;
+      state.todayTotalStored = 0;
+      state.ambientTemp = 42;
+      initTiles();
+      renderFloorPlan();
+      updateStats();
+      initCharts();
+      showAlert('System Reset', 'All values have been reset to initial state');
+    }
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'en' ? 'ar' : 'en';
+      document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+      document.getElementById('langBtn').textContent = currentLang === 'en' ? 'العربية' : 'English';
+      
+      Object.keys(translations[currentLang]).forEach(key => {
+        const element = document.getElementById(key);
+        if(element) {
+          element.textContent = translations[currentLang][key];
+        }
+      });
+    }
+
+    function toggleTheme() {
+      currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', currentTheme);
+      document.getElementById('themeBtn').textContent = currentTheme === 'dark' ? '☀️ Light' : '🌙 Dark';
+    }
+
+    function openReportModal() {
+      document.getElementById('reportModal').classList.add('show');
+    }
+
+    function closeReportModal() {
+      document.getElementById('reportModal').classList.remove('show');
+    }
+
+    function generateReport() {
+      const period = document.getElementById('reportPeriod').value;
+      const reportDate = new Date().toLocaleDateString();
+      
+      const activeTiles = tiles.filter(t => t.status === 'online' && t.enabled);
+      const totalPower = activeTiles.reduce((sum, t) => sum + t.power, 0);
+      
+      const printWindow = window.open('', '', 'width=800,height=600');
+      printWindow.document.write(`
+        <html>
+        <head>
+          <title>SOLVEX ${period.charAt(0).toUpperCase() + period.slice(1)} Report</title>
+          <style>
+            body { font-family: 'Tajawal', sans-serif; padding: 40px; color: #333; }
+            h1 { color: #fdc500; border-bottom: 3px solid #A5BE00; padding-bottom: 10px; }
+            .header { display: flex; justify-content: space-between; margin-bottom: 30px; }
+            .stat { background: #f5f5f5; padding: 15px; margin: 10px 0; border-left: 4px solid #fdc500; }
+            .stat strong { color: #A5BE00; font-size: 1.3em; }
+            table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+            th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+            th { background: #fdc500; color: white; }
+            .footer { margin-top: 40px; text-align: center; color: #666; font-size: 0.9em; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <div>
+              <h1>SOLVEX Energy Report</h1>
+              <p><strong>Report Type:</strong> ${period.charAt(0).toUpperCase() + period.slice(1)}</p>
+              <p><strong>Generated:</strong> ${reportDate}</p>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 3em;">⚡</div>
+            </div>
+          </div>
+
+          <h2>System Overview</h2>
+          <div class="stat">
+            <div>Total Energy Output: <strong>${totalPower.toFixed(0)} W</strong></div>
+          </div>
+          <div class="stat">
+            <div>Battery Storage: <strong>${state.currentBatteryStorage.toFixed(2)} kWh</strong></div>
+          </div>
+          <div class="stat">
+            <div>Today's Total Stored: <strong>${state.todayTotalStored.toFixed(2)} kWh</strong></div>
+          </div>
+          <div class="stat">
+            <div>Active Tiles: <strong>${activeTiles.length} / ${tiles.length}</strong></div>
+          </div>
+          <div class="stat">
+            <div>Ambient Temperature: <strong>${state.ambientTemp.toFixed(1)}°C</strong></div>
+          </div>
+
+          <h2>Tile Details</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Tile ID</th>
+                <th>Status</th>
+                <th>Power (W)</th>
+                <th>Temperature (°C)</th>
+                <th>Efficiency (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${tiles.map(t => `
+                <tr>
+                  <td>${t.id}</td>
+                  <td>${!t.enabled ? 'Disabled' : t.status}</td>
+                  <td>${t.enabled && t.status === 'online' ? t.power : 0}</td>
+                  <td>${t.temp}</td>
+                  <td>${t.efficiency}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+
+          <div class="footer">
+            <p>SOLVEX Thermal Energy Management System</p>
+            <p>This report is generated automatically and contains simulated data for demonstration purposes.</p>
+          </div>
+        </body>
+        </html>
+      `);
+      
+      printWindow.document.close();
+      setTimeout(() => {
+        printWindow.print();
+      }, 250);
+      
+      closeReportModal();
+    }
+
+    function toggleFaq(element) {
+      const answer = element.nextElementSibling;
+      const icon = element.querySelector('span:last-child');
+      answer.classList.toggle('open');
+      icon.style.transform = answer.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0)';
+    }
+
+    document.getElementById('langBtn').addEventListener('click', toggleLanguage);
+    document.getElementById('themeBtn').addEventListener('click', toggleTheme);
+    document.getElementById('reportBtn').addEventListener('click', openReportModal);
+    document.getElementById('simulateBtn').addEventListener('click', () => {
+      if(simInterval) {
+        stopSimulation();
+      } else {
+        startSimulation();
+      }
+    });
+    document.getElementById('resetBtn').addEventListener('click', resetSystem);
+
+    document.getElementById('tileModal').addEventListener('click', (e) => {
+      if(e.target.id === 'tileModal') closeTileModal();
+    });
+
+    document.getElementById('reportModal').addEventListener('click', (e) => {
+      if(e.target.id === 'reportModal') closeReportModal();
+    });
+
+    initTiles();
+    renderFloorPlan();
+    updateStats();
+    initCharts();
+
+    console.log('SOLVEX Enhanced Control Panel loaded successfully!');
+  </script>
+</body>
+</html>
