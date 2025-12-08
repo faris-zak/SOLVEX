@@ -6,14 +6,14 @@
     <meta name="description" content="Innovative solutions for sustainable growth with SOLVEX.">
     <meta name="author" content="SOLVEX">
     <meta name="keywords" content="">
-    <meta name="theme-color" content="#EBF2FA">
+    <meta name="theme-color" content="#FDC500">
     <meta name="mobile-web-app-capable" content="yes">
 
     <title>SOLVEX</title>
 
     <link rel="icon" href="assets/images/solvex-icon.png" type="image/png">
     <link rel="stylesheet" href="assets/css/style.css">
-    <!-- <link rel="manifest" href="manifest.json"> -->
+    <link rel="manifest" href="manifest.json">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -159,5 +159,10 @@
         </footer>
     
     <script src="assets/js/script.js"></script>
+    <script>
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("/service-worker.js");
+        }
+    </script>
 </body>
 </html>
