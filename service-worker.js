@@ -1,4 +1,4 @@
-const CACHE_NAME = 'solvex-v1';
+const CACHE_NAME = 'solvex-v2';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -8,6 +8,10 @@ const urlsToCache = [
   '/assets/images/solvex-logo.png',
   '/assets/images/solvex-logo.jpeg',
   '/assets/images/squ-word.webp',
+  '/images/WhatsApp Image 2025-12-05 at 9.27.37 AM.jpeg',
+  '/images/WhatsApp Image 2025-12-05 at 9.36.34 AM (1).jpeg',
+  '/images/WhatsApp Image 2025-12-05 at 9.36.34 AM (2).jpeg',
+  '/images/WhatsApp Image 2025-12-05 at 9.36.34 AM.jpeg',
   '/offline.html'
 ];
 
