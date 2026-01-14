@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Thermal Energy Harvesting Simulation - Oman Edition</title>
+    <style>
+        /* --- CSS (style.css) --- */
+        :root {
+            --bg-color: #121212;
+            --panel-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --accent-color: #00d4ff;
+            --accent-hot: #ff4d4d;
+            --success-color: #00ff88;
+            --warning-color: #ffaa00;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        /* Responsive Layout Container */
+        #container {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+            transition: all 0.3s ease;
+        }
+
+        /* 3D Scene Area */
+        #canvas-container {
+            flex-grow: 1;
+            position: relative;
+            background: radial-gradient(circle at center, #2a2a2a 0%, #000000 100%);
+            overflow: hidden;
+        }
+
+        /* Dashboard UI */
+        #ui-panel {
+            width: 350px;
+            min-width: 300px;
+            background-color: var(--panel-bg);
+            padding: 20px;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+
+        /* Responsive Breakpoint: Mobile/Tablet */
+        @media (max-width: 850px) {
+            #container {
+                flex-direction: column;
+            }
+            #canvas-container {
+                height: 55vh;
+                flex-grow: 0;
+            }
+            #ui-panel {
+                width: 100%;
+                height: 45vh;
+                box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
+                border-top: 1px solid #333;
+            }
+        }
+
+        h1 { font-size: 1.2rem; margin: 0 0 5px 0; color: var(--accent-color); text-transform: uppercase; letter-spacing: 1px; }
+        h2 { font-size: 0.9rem; margin-bottom: 8px; border-bottom: 1px solid #444; padding-bottom: 5px; color: #bbb; }
+        p.subtitle { margin: 0 0 15px 0; font-size: 0.8rem; opacity: 0.6; }
+
+        /* Controls */
+        .control-group {
+            background: #2a2a2a;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .toggle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        /* Range Slider */
+        input[type=range] {
+            width: 100%;
+            cursor: pointer;
+            accent-color: var(--accent-color);
+        }
+
+        /* Toggle Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #555; transition: .4s; border-radius: 20px;
+        }
+        .slider:before {
+            position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px;
+            background-color: white; transition: .4s; border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--accent-color); }
+        input:checked + .slider:before { transform: translateX(20px); }
+
+        /* Data Display */
+        .metric-card {
+            background: #252525;
+            padding: 8px 10px;
+            border-radius: 5px;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+        .metric-value { font-family: 'Courier New', monospace; font-weight: bold; }
+
+        /* Efficiency Label */
+        #eff-label {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            margin-left: auto;
+        }
+        .eff-high { background: rgba(0, 255, 136, 0.2); color: var(--success-color); border: 1px solid var(--success-color); }
+        .eff-med { background: rgba(255, 170, 0, 0.2); color: var(--warning-color); border: 1px solid var(--warning-color); }
+        .eff-low { background: rgba(255, 77, 77, 0.2); color: var(--accent-hot); border: 1px solid var(--accent-hot); }
+
+        /* Buttons */
+        .btn-row { display: flex; gap: 8px; margin-top: 5px; }
+        button {
+            flex: 1;
+            background-color: #444;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 0.85rem;
+        }
+        button:hover { background-color: #555; }
+        button.active { background-color: var(--accent-color); color: #000; font-weight: bold; }
+        button.danger { background-color: #552222; color: #ff9999; }
+
+        /* LED Indicator */
+        #led-container { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+        .led {
+            width: 15px; height: 15px; border-radius: 50%; background-color: #333;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.8); transition: all 0.3s;
+        }
+        .led.active {
+            background-color: var(--success-color);
+            box-shadow: 0 0 15px var(--success-color);
+        }
+
+        /* Tooltip / Educational Popups */
+        #tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid var(--accent-color);
+            color: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            pointer-events: none; /* Let mouse pass through */
+            display: none;
+            max-width: 250px;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        #tooltip strong { color: var(--accent-color); display: block; margin-bottom: 4px; }
+
+        /* Presentation Overlay */
+        #presentation-overlay {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: 1px solid #444;
+            display: none;
+            z-index: 50;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            pointer-events: none;
+        }
+        .blink { animation: blinker 1.5s linear infinite; color: var(--accent-hot); margin-right: 8px; }
+        @keyframes blinker { 50% { opacity: 0; } }
+
+    </style>
+</head>
+<body>
+
+<div id="container">
+    <div id="canvas-container">
+        <div id="tooltip"></div>
+        <div id="presentation-overlay"><span class="blink">●</span>PRESENTATION MODE</div>
+    </div>
+
+    <div id="ui-panel">
+        <div>
+            <h1>Thermal Harvester</h1>
+            <p class="subtitle">Oman Climate Simulation</p>
+        </div>
+
+        <div class="control-group" style="border: 1px solid var(--success-color); background: rgba(0, 255, 136, 0.05);">
+            <h2 style="color: var(--success-color);">🤖 AI Core Analytics</h2>
+            <div class="toggle-row">
+                <span>AI Autonomous Control</span>
+                <label class="switch">
+                    <input type="checkbox" id="aiToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="metric-card">
+                <span>Thermal Prediction:</span>
+                <span class="metric-value" id="aiPredictText" style="color:var(--success-color);">STABLE</span>
+            </div>
+            <p id="aiLog" style="font-size: 0.7rem; color: #888; margin: 5px 0;">Agent: Monitoring solar flux...</p>
+        </div>
+
+        <div class="control-group">
+            <h2>Environment & Solar Cycle</h2>
+            
+            <div class="toggle-row">
+                <label>Day / Night Cycle</label>
+                <label class="switch">
+                    <input type="checkbox" id="cycleToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <label style="font-size:0.8rem; display:block; margin-bottom:5px;">Solar Intensity</label>
+            <input type="range" id="solarSlider" min="0" max="100" value="0">
+            <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#888;">
+                <span>Night</span>
+                <span id="timeDisplay">Midnight</span>
+                <span>Noon</span>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <h2>System Configuration</h2>
+            
+            <div class="toggle-row">
+                <label>PCM Layer</label>
+                <label class="switch">
+                    <input type="checkbox" id="pcmToggle" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="toggle-row">
+                <label>Bottom Ventilation</label>
+                <label class="switch">
+                    <input type="checkbox" id="ventToggle" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                <h2>Real-time Telemetry</h2>
+                <span id="eff-label" class="eff-low">LOW EFFICIENCY</span>
+            </div>
+            
+            <div class="metric-card">
+                <span>Top Surface:</span>
+                <span class="metric-value" id="topTempDisplay">00.0 °C</span>
+            </div>
+            <div class="metric-card">
+                <span>Bottom Surface:</span>
+                <span class="metric-value" id="botTempDisplay">00.0 °C</span>
+            </div>
+            <div class="metric-card" style="border-left: 3px solid var(--accent-color);">
+                <span>Delta T (ΔT):</span>
+                <span class="metric-value" id="deltaTDisplay">0.0 °C</span>
+            </div>
+            
+            <div style="margin-top: 10px; border-top: 1px dashed #444; padding-top: 10px;">
+                <div class="metric-card">
+                    <span>Power Generated:</span>
+                    <span class="metric-value" id="powerDisplay" style="color:var(--success-color);">0.00 mW</span>
+                </div>
+            </div>
+
+            <div id="led-container">
+                <div class="led" id="powerLed"></div>
+                <span style="font-size: 0.85rem; opacity:0.8;">Active Generation</span>
+            </div>
+        </div>
+
+        <div class="btn-row">
+            <button id="eduBtn" onclick="toggleEduMode()">🎓 Edu Mode</button>
+            <button id="presBtn" onclick="togglePresentation()">🎥 Present</button>
+        </div>
+        <div class="btn-row">
+            <button class="danger" onclick="resetSimulation()">↺ Reset System</button>
+        </div>
+    </div>
+</div>
+
+<script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+</script>
+
+<script type="module">
+    /* --- JavaScript Logic --- */
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    // --- Configuration Constants (Oman Climate) ---
+    const CONFIG = {
+        baseAmbientNight: 28,  // Hot nights in Oman
+        baseAmbientDay: 42,    // Very hot days
+        maxSolarAdd: 35,       // Surface gets VERY hot (+35 over ambient)
+        tegEfficiency: 0.1,    // Simulation factor
+        pcmStabilization: 0.05 // How hard PCM fights temp change
+    };
+
+    // --- State Management ---
+    let state = {
+        solarIntensity: 0.0, // 0 (Night) to 1 (Noon)
+        isAutoCycle: false,
+        cycleTime: 4.7,      // Start near morning
+        hasPCM: true,
+        hasVent: true,
+        isEduMode: false,
+        isPresenting: false,
+        
+        // Physics vars
+        temps: { top: 28, bottom: 28 },
+        currentAmbient: 28
+    };
+
+    // --- Scene Setup ---
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    // Dark radial background handled by CSS, strict fog match
+    scene.fog = new THREE.FogExp2(0x1a1a1a, 0.03); 
+
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+    camera.position.set(12, 9, 12);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    container.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.maxPolarAngle = Math.PI / 2; // Prevent going under floor
+
+    // --- Lighting ---
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+    scene.add(ambientLight);
+
+    const sunLight = new THREE.DirectionalLight(0xffaa00, 2);
+    sunLight.position.set(5, 10, 5);
+    sunLight.castShadow = true;
+    scene.add(sunLight);
+
+    // --- 3D Model Construction ---
+    // Helper to create layers with metadata for Education Mode
+    function createLayer(w, h, d, color, y, name, desc) {
+        const geo = new THREE.BoxGeometry(w, h, d);
+        const mat = new THREE.MeshStandardMaterial({ 
+            color: color, roughness: 0.6, metalness: 0.2,
+            transparent: true, opacity: 0.95
+        });
+        const mesh = new THREE.Mesh(geo, mat);
+        mesh.position.y = y;
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+        
+        // Metadata for Edu Mode
+        mesh.userData = { 
+            isInteractive: true,
+            name: name,
+            description: desc,
+            originalColor: color.toString(16)
+        };
+        return mesh;
+    }
+
+    const tileGroup = new THREE.Group();
+    scene.add(tileGroup);
+
+    // 1. Top Surface
+    const topLayer = createLayer(6, 0.25, 6, 0x555555, 2.0, "Solar Absorber", "Ceramic surface designed to absorb solar radiation and protect internal components. In Oman, this can reach 75°C.");
+    tileGroup.add(topLayer);
+
+    // 2. PCM Layer
+    const pcmLayer = createLayer(5.8, 0.8, 5.8, 0x00d4ff, 1.4, "PCM (Phase Change Material)", "Stores latent heat during the day and releases it at night. This smooths temperature spikes and allows power generation even after sunset.");
+    // Make PCM look a bit like glass/gel
+    pcmLayer.material.opacity = 0.7;
+    tileGroup.add(pcmLayer);
+
+    // 3. TEG Modules
+    const tegGroup = new THREE.Group();
+    const tegMat = new THREE.MeshStandardMaterial({ color: 0xdddddd });
+    for(let x=-2; x<=2; x+=2){
+        for(let z=-2; z<=2; z+=2){
+            const teg = new THREE.Mesh(new THREE.BoxGeometry(1, 0.4, 1), tegMat);
+            teg.position.set(x, 0.8, z);
+            // Add user data to group children too
+            teg.userData = { 
+                isInteractive: true, 
+                name: "Thermoelectric Generator", 
+                description: "Uses the Seebeck Effect to convert the temperature difference (ΔT) between the hot PCM and cold bottom layer directly into electricity." 
+            };
+            tegGroup.add(teg);
+        }
+    }
+    tileGroup.add(tegGroup);
+
+    // 4. Ventilation
+    const ventLayer = createLayer(6, 0.4, 6, 0x333333, 0.4, "Ventilation Layer", "Allows air to flow beneath the tile, keeping the bottom side cool. This maximizes the temperature difference needed for energy production.");
+    // Add visual fins
+    for(let i=-2.5; i<=2.5; i+=1) {
+        const fin = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.4, 6), new THREE.MeshStandardMaterial({color:0x222222}));
+        fin.position.set(i, -0.4, 0); // below vent block
+        ventLayer.add(fin);
+    }
+    tileGroup.add(ventLayer);
+
+    // --- Raycaster for Interaction (Edu Mode) ---
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    const tooltip = document.getElementById('tooltip');
+
+    function onMouseClick(event) {
+        if (!state.isEduMode) return;
+
+        // Calculate click position relative to canvas
+        const rect = container.getBoundingClientRect();
+        mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+        raycaster.setFromCamera(mouse, camera);
+        
+        // Intersect recursively
+        const intersects = raycaster.intersectObjects(tileGroup.children, true);
+
+        if (intersects.length > 0) {
+            // Find the first object that has our metadata
+            let target = intersects[0].object;
+            // If we hit a fin (child of vent), bubble up
+            if(!target.userData.isInteractive && target.parent && target.parent.userData.isInteractive) {
+                target = target.parent;
+            }
+
+            if (target.userData.isInteractive) {
+                // Show Tooltip
+                tooltip.style.display = 'block';
+                tooltip.style.left = (event.clientX + 15) + 'px';
+                tooltip.style.top = (event.clientY + 15) + 'px';
+                tooltip.innerHTML = `<strong>${target.userData.name}</strong>${target.userData.description}`;
+            }
+        } else {
+            tooltip.style.display = 'none';
+        }
+    }
+    window.addEventListener('mousedown', onMouseClick); // Use mousedown to feel more responsive
+
+    // --- Physics & Simulation Logic ---
+
+    function updateSimulation(dt) {
+                // --- AI Autonomous Logic ---
+                if(state.isAiMode) {
+                    const aiLog = document.getElementById('aiLog');
+                    
+                    // AI decision: If top is getting too hot, ensure ventilation is ON
+                    if(state.temps.top > 55 && !state.hasVent) {
+                        state.hasVent = true;
+                        document.getElementById('ventToggle').checked = true;
+                        aiLog.innerText = "Agent: High heat detected. Activating ventilation.";
+                    } 
+                    
+                    // AI decision: If Delta T is dropping at night, "optimize" PCM usage
+                    if(state.solarIntensity < 0.1 && (state.temps.top - state.temps.bottom) < 5) {
+                        aiLog.innerText = "Agent: Low Delta T. Optimizing PCM discharge.";
+                        document.getElementById('aiPredictText').innerText = "CALIBRATING";
+                    } else {
+                        document.getElementById('aiPredictText').innerText = "OPTIMIZED";
+                    }
+                }
+
+        // 1. Cycle Logic (Day/Night)
+        if(state.isAutoCycle) {
+            state.cycleTime += dt * 0.5; // Speed of day
+            // Sine wave normalized: -1 to 1 -> 0 to 1
+            const rawSine = Math.sin(state.cycleTime);
+            state.solarIntensity = Math.max(0, rawSine); // Night is 0, Day is 0-1
+            
+            // Update Slider UI
+            document.getElementById('solarSlider').value = state.solarIntensity * 100;
+            
+            // Update Label
+            const timeLabel = document.getElementById('timeDisplay');
+            if(state.solarIntensity < 0.1) timeLabel.innerText = "Night (Cooling)";
+            else if(state.solarIntensity > 0.9) timeLabel.innerText = "Noon (Peak)";
+            else if(rawSine > 0) timeLabel.innerText = "Daytime";
+            else timeLabel.innerText = "Night";
+        }
+
+        // 2. Ambient Calculation based on Sun
+        // Night base: 28, Day Base: 42. Interpolate based on sun.
+        const targetAmbient = CONFIG.baseAmbientNight + (state.solarIntensity * (CONFIG.baseAmbientDay - CONFIG.baseAmbientNight));
+        state.currentAmbient += (targetAmbient - state.currentAmbient) * dt;
+
+        // 3. Temperature Targets
+        // Top Target = Ambient + Solar Heat
+        let targetTop = state.currentAmbient + (state.solarIntensity * CONFIG.maxSolarAdd);
+        
+        // PCM Logic: If PCM enabled, it resists temperature change (thermal mass)
+        let thermalInertia = state.hasPCM ? 0.8 : 2.5; // Lower number = slower change (smoothing)
+        
+        // Move current Top Temp towards Target
+        // If it's cooling down (Night) and PCM is ON, it cools VERY slowly (releasing heat)
+        if(targetTop < state.temps.top && state.hasPCM) {
+            thermalInertia = 0.3; // Very slow release
+        }
+        
+        state.temps.top += (targetTop - state.temps.top) * thermalInertia * dt;
+
+        // Bottom Target logic
+        // Conduction from top tries to heat it up
+        // Ventilation tries to cool it to ambient
+        const conduction = 0.3; 
+        const coolingPower = state.hasVent ? 0.8 : 0.1; // Big difference if vent is off
+
+        let heatInflux = (state.temps.top - state.temps.bottom) * conduction;
+        let coolingFlux = (state.temps.bottom - CONFIG.baseAmbientNight) * coolingPower; // Tries to reach cool air temp
+        
+        state.temps.bottom += (heatInflux - coolingFlux) * dt;
+
+        // 4. Calculate Outputs
+        const deltaT = Math.max(0, state.temps.top - state.temps.bottom);
+        const power = deltaT * deltaT * 0.05; // Simplified power curve
+
+        // 5. Update UI
+        updateUI(deltaT, power);
+
+        // 6. Update 3D Visuals
+        updateVisuals(deltaT);
+    }
+
+    function updateUI(deltaT, power) {
+        document.getElementById('topTempDisplay').innerText = state.temps.top.toFixed(1) + " °C";
+        document.getElementById('botTempDisplay').innerText = state.temps.bottom.toFixed(1) + " °C";
+        document.getElementById('deltaTDisplay').innerText = deltaT.toFixed(1) + " °C";
+        document.getElementById('powerDisplay').innerText = power.toFixed(2) + " mW";
+
+        // LED
+        const led = document.getElementById('powerLed');
+        if(power > 0.5) led.classList.add('active');
+        else led.classList.remove('active');
+
+        // Efficiency Badge Logic
+        const effLabel = document.getElementById('eff-label');
+        effLabel.className = ''; // reset
+        if(state.hasVent && state.hasPCM && deltaT > 10) {
+            effLabel.classList.add('eff-high');
+            effLabel.innerText = "HIGH EFFICIENCY";
+        } else if (deltaT > 5) {
+            effLabel.classList.add('eff-med');
+            effLabel.innerText = "MED EFFICIENCY";
+        } else {
+            effLabel.classList.add('eff-low');
+            effLabel.innerText = "LOW EFFICIENCY";
+        }
+    }
+
+    function updateVisuals(deltaT) {
+        // Color mapping for Top Surface: Grey -> Red
+        const topMesh = topLayer;
+        const tempRatio = Math.min(1, (state.temps.top - 25) / 50); // 0 to 1 based on heat
+        const hotColor = new THREE.Color(1, 0.2, 0); // Red
+        const coldColor = new THREE.Color(0.2, 0.2, 0.2); // Dark Grey
+        
+        topMesh.material.color.lerpColors(coldColor, hotColor, tempRatio);
+        topMesh.material.emissive.copy(hotColor);
+        topMesh.material.emissiveIntensity = tempRatio * 0.3; // Glow slightly when hot
+
+        // PCM Visuals
+        if(state.hasPCM) {
+            pcmLayer.visible = true;
+            // Glows blue when cool, Orange when releasing heat
+            const pcmColor = new THREE.Color(0x00d4ff).lerp(new THREE.Color(0xffaa00), tempRatio);
+            pcmLayer.material.color.copy(pcmColor);
+        } else {
+            pcmLayer.visible = false;
+        }
+
+        // Sun Direction/Intensity
+        sunLight.intensity = Math.max(0.2, state.solarIntensity * 2);
+    }
+
+    // --- Animation Loop ---
+    const clock = new THREE.Clock();
+
+    function animate() {
+        requestAnimationFrame(animate);
+        const dt = clock.getDelta();
+
+        updateSimulation(dt);
+
+        // Presentation Mode Camera Rotation
+        if(state.isPresenting) {
+            const time = Date.now() * 0.0002;
+            camera.position.x = Math.sin(time) * 16;
+            camera.position.z = Math.cos(time) * 16;
+            camera.lookAt(0, 0, 0);
+        } else {
+            controls.update();
+        }
+
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    // --- DOM Event Listeners ---
+
+    // Sliders
+    document.getElementById('solarSlider').addEventListener('input', (e) => {
+        state.solarIntensity = e.target.value / 100;
+        state.isAutoCycle = false; // User intervention stops auto cycle
+        document.getElementById('cycleToggle').checked = false;
+    });
+
+    // Toggles
+    document.getElementById('cycleToggle').addEventListener('change', (e) => { state.isAutoCycle = e.target.checked; });
+    document.getElementById('pcmToggle').addEventListener('change', (e) => { state.hasPCM = e.target.checked; });
+    document.getElementById('ventToggle').addEventListener('change', (e) => { state.hasVent = e.target.checked; });
+
+    // Mode Buttons
+    window.toggleEduMode = function() {
+        state.isEduMode = !state.isEduMode;
+        state.isPresenting = false; // Conflict resolution
+        document.getElementById('eduBtn').classList.toggle('active');
+        document.getElementById('presBtn').classList.remove('active');
+        
+        if(!state.isEduMode) tooltip.style.display = 'none';
+        resetLayout();
+    };
+
+    window.togglePresentation = function() {
+        state.isPresenting = !state.isPresenting;
+        state.isEduMode = false;
+        document.getElementById('presBtn').classList.toggle('active');
+        document.getElementById('eduBtn').classList.remove('active');
+        tooltip.style.display = 'none';
+        
+        const ui = document.getElementById('ui-panel');
+        const overlay = document.getElementById('presentation-overlay');
+        
+        if(state.isPresenting) {
+            // Hide UI logic
+            if(window.innerWidth > 850) {
+                ui.style.transform = "translateX(100%)";
+                ui.style.position = "absolute"; 
+                ui.style.right = "0";
+            } else {
+                ui.style.display = "none";
+            }
+            overlay.style.display = "block";
+            
+            // Allow clicking canvas to exit
+            container.addEventListener('click', exitPres);
+        } else {
+            resetLayout();
+        }
+    };
+
+    function exitPres() {
+        if(state.isPresenting) togglePresentation();
+        container.removeEventListener('click', exitPres);
+    }
+
+    function resetLayout() {
+        const ui = document.getElementById('ui-panel');
+        ui.style.transform = "translateX(0)";
+        ui.style.position = "relative";
+        ui.style.right = "auto";
+        ui.style.display = "flex";
+        document.getElementById('presentation-overlay').style.display = "none";
+        // Reset camera
+        camera.position.set(12, 9, 12);
+        controls.reset();
+    }
+
+    window.resetSimulation = function() {
+        state.solarIntensity = 0;
+        state.isAutoCycle = false;
+        state.hasPCM = true;
+        state.hasVent = true;
+        state.temps = { top: 28, bottom: 28 };
+        
+        // Reset Inputs
+        document.getElementById('solarSlider').value = 0;
+        document.getElementById('cycleToggle').checked = false;
+        document.getElementById('pcmToggle').checked = true;
+        document.getElementById('ventToggle').checked = true;
+        
+        if(state.isEduMode) toggleEduMode();
+        if(state.isPresenting) togglePresentation();
+    };
+
+    // Responsive Resize
+    window.addEventListener('resize', () => {
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+
+</script>
+</body>
+</html>
