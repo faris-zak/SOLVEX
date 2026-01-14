@@ -534,7 +534,7 @@ main section.fourth-body div.details i{
     color: #1C8F5A;
 }
 
-a.dashboard{
+a.tile3d{
     cursor: pointer;
     user-select: none;
     text-align: center;
@@ -559,7 +559,7 @@ a.dashboard{
     z-index: 1000;
 }
 
-a.dashboard:hover{
+a.tile3d:hover{
     background: #157648;
     transform: translateY(-3px);
     box-shadow: 0 6px 25px rgba(28, 143, 90, 0.4);
